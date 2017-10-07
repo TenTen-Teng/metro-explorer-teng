@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">DCMetroExplorer</string>
+    <string name="title_activity_maps">Map</string>
+
+    <string name="closetSatation_button_text">Use Closest Station</string>
+    <string name="selectSatation_button_text">Select a station</string>
+    <string name="landmarks_button_text">Favorite Landmarks</string>
+
+    <string name="landmark_head_text">Heading</string>
+    <string name="landmark_address_text">Address</string>
+</resources>

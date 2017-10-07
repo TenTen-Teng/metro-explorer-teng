@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.teamtj.dcmetroexplorer.LandmarkDetailActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        >
+
+        <TextView
+            android:id="@+id/landmark_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="George Washington University"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            />
+
+        <Button
+            android:id="@+id/like_button"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:text="Lk"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            />
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:text="s"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/like_button"
+            android:layout_toRightOf="@id/landmark_title_text"
+            />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/landmarkDetailLinearLayout"
+        android:background="@color/cardview_dark_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/landmark_image"
+            android:src="@drawable/menu_metro"
+            android:layout_height="100dp"
+            android:layout_width="200dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            />
+
+        <TextView
+            android:id="@+id/landmark_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="landmark name"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/landmark_image"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            />
+
+        <TextView
+            android:id="@+id/landmark_detail_info"
+            android:paddingTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/landmark_image"
+            android:text=""
+
+            />
+    </RelativeLayout>
+
+
+
+
+</LinearLayout>
