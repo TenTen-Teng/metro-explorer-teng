@@ -1,10 +1,11 @@
-package edu.gwu.metrotest
+package edu.gwu.metrotest.asyncTask
 
 import android.content.Context
 import android.util.Log
 import com.google.gson.JsonObject
 import com.koushikdutta.async.future.FutureCallback
 import com.koushikdutta.ion.Ion
+import edu.gwu.metrotest.Constants
 import edu.gwu.metrotest.model.Landmark
 
 /**
@@ -14,20 +15,20 @@ import edu.gwu.metrotest.model.Landmark
 class FetchLandmarksAsyncTask(val context: Context){
     private val TAG = "FetchLandmarksAsyncTask"
     private var landmarks = ArrayList<Landmark>()
-    private var yelpAuthAsyncTask : YelpAuthAsyncTask ?= null
+    private var yelpAuthAsyncTask : YelpAuthAsyncTask?= null
     val token = yelpAuthAsyncTask?.getYelpToken().toString()
 
-    var itemSearchCompletionListener : ItemSearchCompletionListener ?= null
+    var itemSearchCompletionListener : ItemSearchCompletionListener?= null
 
     interface ItemSearchCompletionListener {
-        fun itemLoaded(landmarks: ArrayList<Landmark>)
-        fun itemNotLoaded()
+        fun landmarkItemLoaded(landmarks: ArrayList<Landmark>)
+        fun landmarkItemNotLoaded()
     }
 
     fun loadLandmarkData() : ArrayList<Landmark>{
-        Ion.with(context).load(Constants_yelp.YELP_SEARCH_URL)
+        Ion.with(context).load(Constants.YELP_SEARCH_URL)
                 //.addHeader("Authorization", "Bearer " + token.toString())
-                .addHeader("Authorization", "Bearer " + Constants_yelp.YELP_TOKEN)
+                .addHeader("Authorization", "Bearer " + Constants.YELP_TOKEN)
                 .addQuery("term", "landmarks")
                 //.addQuery("latitude", lat)
                 //.addQuery("longitude", lon)
@@ -38,15 +39,15 @@ class FetchLandmarksAsyncTask(val context: Context){
                 .setCallback(FutureCallback{error, result ->
                     error?.let {
                         Log.e(TAG, it.toString())
-                        itemSearchCompletionListener?.itemNotLoaded()
+                        itemSearchCompletionListener?.landmarkItemNotLoaded()
                     }
                     result?.let {
                         var itemsInfo = parseInfoFromYelpJSON(result)
 
                         if (itemsInfo != null && itemsInfo.size > 0) {
-                            itemSearchCompletionListener?.itemLoaded(landmarks)
+                            itemSearchCompletionListener?.landmarkItemLoaded(landmarks)
                         } else {
-                            itemSearchCompletionListener?.itemNotLoaded()
+                            itemSearchCompletionListener?.landmarkItemNotLoaded()
                         }
                     }
                 })

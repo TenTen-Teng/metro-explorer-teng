@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_vertical|center_horizontal"
-    tools:context="edu.gwu.metrotest.MenuActivity">
+    tools:context="edu.gwu.metrotest.activity.MenuActivity">
 
     <ImageView
         android:src="@drawable/menu_metro"

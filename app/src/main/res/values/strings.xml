@@ -6,6 +6,8 @@
     <string name="selectSatation_button_text">Select a station</string>
     <string name="landmarks_button_text">Favorite Landmarks</string>
 
-    <string name="landmark_head_text">Heading</string>
-    <string name="landmark_address_text">Address</string>
+    <string name="place_holder">Lorem Ipsum</string>
+
+
+
 </resources>

@@ -1,9 +1,10 @@
-package edu.gwu.metrotest
+package edu.gwu.metrotest.asyncTask
 
 import android.content.Context
 import android.util.Log
 import com.koushikdutta.async.future.FutureCallback
 import com.koushikdutta.ion.Ion
+import edu.gwu.metrotest.Constants
 
 /**
  * Created by liteng on 10/1/17.
@@ -14,10 +15,10 @@ class YelpAuthAsyncTask (val context: Context){
 
     fun getYelpToken(){
         Ion.with(context)
-                .load(Constants_yelp.YELP_TOKEN_URL)
-                .setBodyParameter("grant_type", Constants_yelp.YELP_GRANT_TYPE)
-                .setBodyParameter("client_id", Constants_yelp.YELP_CLIENT_ID)
-                .setBodyParameter("client_secret", Constants_yelp.YELP_CLIENT_SECRET)
+                .load(Constants.YELP_TOKEN_URL)
+                .setBodyParameter("grant_type", Constants.YELP_GRANT_TYPE)
+                .setBodyParameter("client_id", Constants.YELP_CLIENT_ID)
+                .setBodyParameter("client_secret", Constants.YELP_CLIENT_SECRET)
                 .asString()
                 .setCallback(FutureCallback{ error, result ->
                     error?.let {
