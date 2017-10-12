@@ -11,8 +11,7 @@ import android.os.Parcel;
 
 
 data class Landmark(val name: String, val imageUrl: String,
-                    val address1: String, val address2: String,
-                    val distance: Int): Parcelable {
+                    val address1:String, val address2: String, val distance: Int): Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readString(),
@@ -42,4 +41,5 @@ data class Landmark(val name: String, val imageUrl: String,
             return arrayOfNulls(size)
         }
     }
+
 }

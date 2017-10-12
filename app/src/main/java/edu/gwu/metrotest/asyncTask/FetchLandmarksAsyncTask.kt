@@ -1,6 +1,7 @@
 package edu.gwu.metrotest.asyncTask
 
 import android.content.Context
+import android.location.Location
 import android.util.Log
 import com.google.gson.JsonObject
 import com.koushikdutta.async.future.FutureCallback
@@ -25,16 +26,12 @@ class FetchLandmarksAsyncTask(val context: Context){
         fun landmarkItemNotLoaded()
     }
 
-    fun loadLandmarkData() : ArrayList<Landmark>{
+    fun loadLandmarkData(stationName:String) : ArrayList<Landmark>{
         Ion.with(context).load(Constants.YELP_SEARCH_URL)
                 //.addHeader("Authorization", "Bearer " + token.toString())
                 .addHeader("Authorization", "Bearer " + Constants.YELP_TOKEN)
                 .addQuery("term", "landmarks")
-                //.addQuery("latitude", lat)
-                //.addQuery("longitude", lon)
-                .addQuery("location", "virgina")
-                //.addQuery("Authorization", "Bearer " + token.toString())
-                //.addQuery("Authorization", "Bearer " + Constants_yelp.YELP_TOKEN)
+                .addQuery("location", stationName)
                 .asJsonObject()
                 .setCallback(FutureCallback{error, result ->
                     error?.let {
@@ -45,14 +42,17 @@ class FetchLandmarksAsyncTask(val context: Context){
                         var itemsInfo = parseInfoFromYelpJSON(result)
 
                         if (itemsInfo != null && itemsInfo.size > 0) {
+                            //sortByDistance(landmarks)
+                            landmarks.sortBy { it.distance }
+
                             itemSearchCompletionListener?.landmarkItemLoaded(landmarks)
                         } else {
                             itemSearchCompletionListener?.landmarkItemNotLoaded()
                         }
                     }
                 })
-
         return landmarks
+
     }
 
     fun parseInfoFromYelpJSON(jsonObject: JsonObject): ArrayList<Landmark>{
@@ -65,32 +65,55 @@ class FetchLandmarksAsyncTask(val context: Context){
                 var landmarkName = itemResult.get("name").toString().removeSurrounding("\"","\"")
                 var landmarkImageUrl = itemResult.get("image_url").toString().removeSurrounding("\"","\"")
                 var landmarkDistance = itemResult.get("distance").asInt
+                var addressLine1 = ""
+                var addressLine2 = ""
 
-                var landmarklocation = itemResult.get("location").asJsonObject
-                var locations:JsonObject ?= landmarklocation
-
-                var address1 = locations?.get("address1").toString()
-                var address2 = locations?.get("address2").toString()
-                var address3 = locations?.get("address3").toString()
-                var city = locations?.get("city").toString()
-                var zipCode = locations?.get("zip_code").toString()
-                var country = locations?.get("country").toString()
-                var state = locations?.get("state").toString()
+                var landmarkLocation = itemResult.get("location").asJsonObject
+                var locations:JsonObject ?= landmarkLocation
+//
+//                var address1 = locations?.get("address1").toString()
+//                var address2 = locations?.get("address2").toString()
+//                var address3 = locations?.get("address3").toString()
+//                var city = locations?.get("city").toString()
+//                var zipCode = locations?.get("zip_code").toString()
+//                var country = locations?.get("country").toString()
+//                var state = locations?.get("state").toString()
 
 
                 var displayAddress = locations?.get("display_address").toString()
                         .removeSurrounding("[","]")
-                var displayAddressLine1 = displayAddress.split("\",").get(0)
-                var displayAddressLine2 = displayAddress.split("\",").get(1)
+                        .removeSurrounding("\"","\"")
 
 
-                if (landmarkName == null || displayAddressLine1 == null || landmarkDistance == null) {
-                    continue;
+                if (landmarkName == null && displayAddress == null && landmarkDistance == null) {
+                    continue
                 } else {
+                    var addressLines = displayAddress.split("\",")
+
+                    Log.e("address@@@@", addressLines.size.toString())
+
+                    if (addressLines.size == 1) {
+                        addressLine1 = addressLines[0]
+                        addressLine2 = "-1"
+                    } else {
+                        if (addressLines.size == 2) {
+                            addressLine1 = addressLines[0]
+                            addressLine2 = addressLines[1]
+                        }
+                    }
+
+//                    if(addressLines.size == 2) {
+//                        addressLine1 = addressLines.get(0)
+//                        addressLine2 = addressLines.get(1)
+//                    } else {
+//                        addressLine1 = addressLines.get(0)
+//                        addressLine2 = "-1"
+//                    }
+
                     if (landmarkImageUrl == null) {
                         landmarkImageUrl = "don't have image"
                     } else {
-                        val mLandmark = Landmark(landmarkName, landmarkImageUrl, displayAddressLine1, displayAddressLine2, landmarkDistance)
+                        val mLandmark = Landmark(landmarkName, landmarkImageUrl, addressLine1, addressLine2, landmarkDistance)
                         landmarks.add(mLandmark)
                     }
                 }

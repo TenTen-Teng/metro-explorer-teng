@@ -13,7 +13,8 @@ import edu.gwu.metrotest.model.MetroStation
 import kotlinx.android.synthetic.main.activity_metro_station.*
 import org.jetbrains.anko.toast
 
-class MetroStationActivity : AppCompatActivity(), View.OnClickListener, FetchMetroStationAsyncTask.ItemSearchCompletionListener {
+class MetroStationActivity : AppCompatActivity(), View.OnClickListener,
+        FetchMetroStationAsyncTask.ItemsSearchCompletionListener {
     private val TAG = "MetroStationActivity"
 
     lateinit var stations: List<MetroStation>
@@ -34,12 +35,14 @@ class MetroStationActivity : AppCompatActivity(), View.OnClickListener, FetchMet
 
     fun initView() {
         recyclerView = findViewById(R.id.station_list)
-        station_list.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        station_list.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
+                false)
 
-        fetchMetroStationAsyncTask.itemSearchCompletionListener = this
+        fetchMetroStationAsyncTask.itemsSearchCompletionListener = this
         fetchMetroStationAsyncTask.loadStationData()
 
-        station_list.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        station_list.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
+                false)
     }
 
     override fun onClick(p0: View?) {
@@ -49,7 +52,7 @@ class MetroStationActivity : AppCompatActivity(), View.OnClickListener, FetchMet
         startActivity(intent)
     }
 
-    override fun stationItemLoaded(stations: ArrayList<MetroStation>) {
+    override fun stationItemsLoaded(stations: ArrayList<MetroStation>) {
         //need add a prograss bar
         toast("Item is loading ....")
 
@@ -60,7 +63,7 @@ class MetroStationActivity : AppCompatActivity(), View.OnClickListener, FetchMet
         }
     }
 
-    override fun stationItemNotLoaded() {
+    override fun stationItemsNotLoaded() {
         toast("Item didn't load :(")
     }
 }

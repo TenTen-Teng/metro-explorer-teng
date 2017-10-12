@@ -23,7 +23,7 @@ class LandmarkDetailActivity : AppCompatActivity(){
 
         title.text = landmark.name
 
-        if (landmark.address2 != null) {
+        if (landmark.address2 != "-1") {
             address.text = landmark.address1 + "\n" + landmark.address2
         } else {
             address.text = landmark.address1

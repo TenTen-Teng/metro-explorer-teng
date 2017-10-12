@@ -1,6 +1,7 @@
 package edu.gwu.metrotest.asyncTask
 
 import android.content.Context
+import android.location.Location
 import android.util.Log
 import com.google.gson.JsonObject
 import com.koushikdutta.async.future.FutureCallback
@@ -15,36 +16,171 @@ import edu.gwu.metrotest.model.MetroStation
 class FetchMetroStationAsyncTask (val context: Context) {
     private val TAG = "FetchMetroAsyncTask"
     private var stations = ArrayList<MetroStation>()
+    private lateinit var location : Location
 
-    var itemSearchCompletionListener : ItemSearchCompletionListener?= null
+    var itemsSearchCompletionListener : ItemsSearchCompletionListener ?= null
+    var findStationNameListener : FindStationNameListener ?=null
 
-    interface ItemSearchCompletionListener {
-        fun stationItemLoaded(stations: ArrayList<MetroStation>)
-        fun stationItemNotLoaded()
+    interface FindStationNameListener {
+        fun stationNameFound(name: String)
+        fun stationNameNotFound()
+    }
+
+    interface ItemsSearchCompletionListener {
+        fun stationItemsLoaded(stations: ArrayList<MetroStation>)
+        fun stationItemsNotLoaded()
     }
 
     fun loadStationData() : ArrayList<MetroStation>{
         Ion.with(context).load(Constants.WMATA_SEARCH_URL)
-                .addHeader("api_key", "4e7abbfe86004387888ba5f9bc9aa769")
+                .addHeader("api_key", Constants.WMATA_API_KEY)
                 .asJsonObject()
                 .setCallback(FutureCallback{ error, result ->
                     error?.let {
                         Log.e(TAG, it.message)
-                        itemSearchCompletionListener?.stationItemNotLoaded()
+                        itemsSearchCompletionListener?.stationItemsNotLoaded()
                     }
                     result?.let {
-                        val itemsInfo =  parseInfoFromWMATAJSON(result)
+                        val itemsInfo =  parseStationInfoFromWMATAJSON(result)
                         if (itemsInfo != null && itemsInfo.size > 0) {
-                            itemSearchCompletionListener?.stationItemLoaded(stations)
+                            itemsSearchCompletionListener?.stationItemsLoaded(stations)
                         } else {
-                            itemSearchCompletionListener?.stationItemNotLoaded()
+                            itemsSearchCompletionListener?.stationItemsNotLoaded()
                         }
                     }
                 })
         return stations
     }
 
-    fun parseInfoFromWMATAJSON(jsonObject: JsonObject): ArrayList<MetroStation>{
+
+    //fun findStationCode(loc : Location){
+    fun findStationCode(lat: String, lon:String) {
+        var stationCode : String
+
+        Ion.with(context).load(Constants.WMATA_LOCATION_URL)
+                .addHeader("api_key", Constants.WMATA_API_KEY)
+                //.addQuery("Lat", loc.latitude.toString())
+                //.addQuery("Lon", loc.longitude.toString())
+                .addQuery("Lat", lat)
+                .addQuery("Lon", lon)
+                .addQuery("Radius", "800")
+                .asJsonObject()
+                .setCallback(FutureCallback{ error, result ->
+                    error?.let {
+                        Log.e(TAG, it.message)
+                    }
+                    result?.let {
+                        stationCode =  parseLocationInfoFromWMATAJSON(result)
+
+                        if (stationCode != "-1") {
+                            findStationName(stationCode)//已知station code, 去找station name
+                        } else {
+                            //expand search radius * 2
+                            Ion.with(context).load(Constants.WMATA_LOCATION_URL)
+                                    .addHeader("api_key", Constants.WMATA_API_KEY)
+                                    //.addQuery("Lat", loc.latitude.toString())
+                                    //.addQuery("Lon", loc.longitude.toString())
+                                    .addQuery("Lat", lat)
+                                    .addQuery("Lon", lon)
+                                    .addQuery("Radius", "1600")
+                                    .asJsonObject()
+                                    .setCallback(FutureCallback{ error, result ->
+                                        error?.let {
+                                            Log.e(TAG, it.message)
+                                        }
+                                        result?.let {
+                                            stationCode =  parseLocationInfoFromWMATAJSON(result)
+
+                                            if (stationCode != "-1") {
+                                                findStationName(stationCode)//已知station code, 去找station name
+                                            } else {
+                                                //expand search radius * 2
+                                                Ion.with(context).load(Constants.WMATA_LOCATION_URL)
+                                                        .addHeader("api_key", Constants.WMATA_API_KEY)
+                                                        //.addQuery("Lat", loc.latitude.toString())
+                                                        //.addQuery("Lon", loc.longitude.toString())
+                                                        .addQuery("Lat", lat)
+                                                        .addQuery("Lon", lon)
+                                                        .addQuery("Radius", "3200")
+                                                        .asJsonObject()
+                                                        .setCallback(FutureCallback{ error, result ->
+                                                            error?.let {
+                                                                Log.e(TAG, it.message)
+                                                            }
+                                                            result?.let {
+                                                                stationCode =  parseLocationInfoFromWMATAJSON(result)
+
+                                                                if (stationCode != "-1") {
+                                                                    findStationName(stationCode)//已知station code, 去找station name
+                                                                } else {
+                                                                    //expand search radius * 2
+                                                                    Ion.with(context).load(Constants.WMATA_LOCATION_URL)
+                                                                            .addHeader("api_key", Constants.WMATA_API_KEY)
+                                                                            //.addQuery("Lat", loc.latitude.toString())
+                                                                            //.addQuery("Lon", loc.longitude.toString())
+                                                                            .addQuery("Lat", lat)
+                                                                            .addQuery("Lon", lon)
+                                                                            .addQuery("Radius", "6400")
+                                                                            .asJsonObject()
+                                                                            .setCallback(FutureCallback{ error, result ->
+                                                                                error?.let {
+                                                                                    Log.e(TAG, it.message)
+                                                                                }
+                                                                                result?.let {
+                                                                                    stationCode =  parseLocationInfoFromWMATAJSON(result)
+
+                                                                                    if (stationCode != "-1") {
+                                                                                        findStationName(stationCode)//已知station code, 去找station name
+                                                                                    } else {
+                                                                                        stationCode = "-1"
+                                                                                    }
+                                                                                }
+                                                                            })
+                                                                }
+                                                            }
+                                                        })
+                                            }
+                                        }
+                                    })
+
+                            Log.e(TAG, "can't find station code")
+                        }
+                    }
+                })
+    }
+
+    //找location name
+    fun findStationName(stationCode:String){
+        if(stationCode == "-1") {
+            findStationNameListener?.stationNameNotFound()
+        } else {
+            Ion.with(context).load(Constants.WMATA_INFO_URL)
+                    .addHeader("api_key", Constants.WMATA_API_KEY)
+                    .addQuery("StationCode", stationCode)
+                    .asJsonObject()
+                    //.asString()
+                    .setCallback(FutureCallback{ error, result ->
+                        error?.let {
+                            Log.e(TAG, it.message)
+                        }
+                        result?.let {
+                            //val stationName =  parseNameFromWMATAJSON(result)
+                            val stationName = result.asJsonObject.get("Name").toString()
+
+                            Log.e("stationName = ", stationName)
+
+                            if (stationName != null && stationName.length > 0) {
+                                findStationNameListener?.stationNameFound(stationName)
+                            } else {
+                                findStationNameListener?.stationNameNotFound()
+                            }
+                        }
+                    })
+        }
+
+    }
+
+    private fun parseStationInfoFromWMATAJSON(jsonObject: JsonObject): ArrayList<MetroStation>{
         val itemResults = jsonObject.getAsJsonArray("Stations")
 
         if (itemResults != null && itemResults.size() > 0) {
@@ -67,7 +203,7 @@ class FetchMetroStationAsyncTask (val context: Context) {
                 var zip = addresses?.get("Zip").toString()
 
                 if (name == null || addresses == null) {
-                    continue;
+                    continue
                 } else {
                     val mStation = MetroStation(name, street, lat, lon, lineCode1, lineCode2, lineCode3)
                     stations.add(mStation)
@@ -78,5 +214,27 @@ class FetchMetroStationAsyncTask (val context: Context) {
             Log.e("load error", "no item in the list")
         }
         return stations
+    }
+
+
+    private fun parseLocationInfoFromWMATAJSON(jsonObject: JsonObject): String{
+        var stationCode = "0"
+        val locationResults = jsonObject.getAsJsonArray("Entrances")
+
+        if (locationResults != null && locationResults.size() > 0) {
+            for (i in 0..locationResults.size() - 1) {
+                var locationResult = locationResults.get(i).asJsonObject
+
+                stationCode = locationResult.get("StationCode1").toString().removeSurrounding("\"", "\"")
+
+                if (stationCode == null) {
+                    stationCode = "-1"
+                }
+            }
+        } else {
+            //no item situation
+            Log.e("load error", "no item in the list")
+        }
+        return stationCode
     }
 }
