@@ -21,8 +21,6 @@ import kotlinx.android.synthetic.main.activity_landmarks.*
 import org.jetbrains.anko.*
 import java.util.*
 
-
-
 class LandmarksActivity : AppCompatActivity(), View.OnClickListener,
         FetchLandmarksAsyncTask.ItemSearchCompletionListener,
         FetchMetroStationAsyncTask.FindStationNameListener,

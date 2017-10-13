@@ -103,7 +103,7 @@ class FetchLandmarksAsyncTask(val context: Context){
                         landmarkImageUrl = "don't have image"
                     } else {
                         val mLandmark = Landmark(landmarkName, landmarkImageUrl, addressLine1, addressLine2,
-                                landmarkDistance, stationName)
+                                landmarkDistance)
                         landmarks.add(mLandmark)
                     }
                 }

@@ -11,15 +11,13 @@ import android.os.Parcel;
 
 
 data class Landmark(val name: String, val imageUrl: String,
-                    val address1:String, val address2: String, val distance: Int,
-                    val relativeStation: String): Parcelable {
+                    val address1:String, val address2: String, val distance: Int): Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
-            parcel.readInt(),
-            parcel.readString()
+            parcel.readInt()
             ) {
     }
 
@@ -29,7 +27,6 @@ data class Landmark(val name: String, val imageUrl: String,
         parcel.writeString(address1)
         parcel.writeString(address2)
         parcel.writeInt(distance)
-        parcel.writeString(relativeStation)
     }
 
     override fun describeContents(): Int {

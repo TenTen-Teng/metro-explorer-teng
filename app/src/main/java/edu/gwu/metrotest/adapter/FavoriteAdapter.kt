@@ -40,7 +40,6 @@ class FavoriteAdapter(private val landmarks: List<Landmark>) : RecyclerView.Adap
         //update score row ui with score and date
         fun bind(landmark: Landmark) {
             nameLandmark.text = landmark.name
-            realtiveStation.text = landmark.relativeStation
         }
     }
 }

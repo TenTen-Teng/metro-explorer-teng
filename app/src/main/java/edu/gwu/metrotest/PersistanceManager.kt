@@ -13,8 +13,7 @@ import java.util.prefs.PreferenceChangeEvent
  */
 
 class PersistanceManager(context: Context) {
-    var sharedPreferences : SharedPreferences ?= null
-
+    val sharedPreferences : SharedPreferences
     init {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
     }
@@ -26,7 +25,6 @@ class PersistanceManager(context: Context) {
             return arrayListOf<Landmark>()
         } else {
             val landmarkType = object :TypeToken<MutableList<Landmark>>(){}.type
-
 
             val landmark: List<Landmark> = Gson().fromJson(landmarkJson, landmarkType)
 

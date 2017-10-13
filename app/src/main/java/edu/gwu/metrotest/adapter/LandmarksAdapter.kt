@@ -12,7 +12,8 @@ import edu.gwu.metrotest.model.Landmark
  * Created by liteng on 10/1/17.
  */
 
-class LandmarksAdapter(private val landmarks: ArrayList<Landmark>, var clickListener : View.OnClickListener?) : RecyclerView.Adapter<LandmarksAdapter.ViewHolder>() {
+class LandmarksAdapter(private val landmarks: ArrayList<Landmark>, var clickListener : View.OnClickListener?)
+    : RecyclerView.Adapter<LandmarksAdapter.ViewHolder>() {
     override fun getItemCount(): Int {
         return landmarks.size
     }

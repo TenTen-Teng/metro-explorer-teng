@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ProgressBar
-import android.widget.TextView
 import edu.gwu.metrotest.PersistanceManager
 import edu.gwu.metrotest.R
 import edu.gwu.metrotest.model.Landmark
@@ -14,7 +13,11 @@ import org.jetbrains.anko.toast
 
 class LandmarkDetailActivity : AppCompatActivity(){
     private lateinit var persistanceManager: PersistanceManager
-    var favLandmark : Landmark ?= null
+    private var title: String = ""
+    private var address1: String = ""
+    private var address2: String = ""
+    private var distance: Int = 0
+    private var imageUrl: String = ""
 
     companion object {
         val LANDMARK = "LANDMARK"
@@ -26,34 +29,34 @@ class LandmarkDetailActivity : AppCompatActivity(){
 
         setSupportActionBar(detail_toolbar)
 
-        loadingBar(true)
-
-        val title = findViewById<TextView>(R.id.title_text)
-        val address = findViewById<TextView>(R.id.address_text)
-        val distance = findViewById<TextView>(R.id.distance_text)
-
         val landmark = intent.getParcelableExtra<Landmark>(LANDMARK)
+        title = landmark.name
+        address1 = landmark.address1
+        address2 = landmark.address2
+        distance = landmark.distance
+        imageUrl = landmark.imageUrl
 
-        title.text = landmark.name
+        persistanceManager = PersistanceManager(this)
 
-        if (landmark.address2 != "-1") {
-            address.text = landmark.address1 + "\n" + landmark.address2
-        } else {
-            address.text = landmark.address1
-        }
+        showDetail()
+    }
 
-        distance.text = landmark.distance.toString()
+    fun showDetail() {
+        loadingBar(true)
+        title_text.text = title
+        address_text.text = address1 + "\n" + address2
+        distance_text.text = distance.toString()
+        //landmark_image
 
-        title.setOnClickListener {
-            finish()
-        }
 
         loadingBar(false)
     }
 
     fun morePressed(item:MenuItem) {
         toast(R.string.like)
-        persistanceManager.saveFavorite(favLandmark!!)
+        val favLandmark = Landmark(title, imageUrl, address1, address2,
+                distance)
+        persistanceManager.saveFavorite(favLandmark)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
