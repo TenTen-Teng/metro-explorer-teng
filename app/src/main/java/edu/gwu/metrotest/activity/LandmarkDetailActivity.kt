@@ -2,14 +2,20 @@ package edu.gwu.metrotest.activity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ProgressBar
 import android.widget.TextView
+import edu.gwu.metrotest.PersistanceManager
 import edu.gwu.metrotest.R
 import edu.gwu.metrotest.model.Landmark
 import kotlinx.android.synthetic.main.activity_landmark_detail.*
-import kotlinx.android.synthetic.main.activity_metro_station.*
+import org.jetbrains.anko.toast
 
 class LandmarkDetailActivity : AppCompatActivity(){
+    private lateinit var persistanceManager: PersistanceManager
+    var favLandmark : Landmark ?= null
+
     companion object {
         val LANDMARK = "LANDMARK"
     }
@@ -17,6 +23,8 @@ class LandmarkDetailActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landmark_detail)
+
+        setSupportActionBar(detail_toolbar)
 
         loadingBar(true)
 
@@ -43,10 +51,19 @@ class LandmarkDetailActivity : AppCompatActivity(){
         loadingBar(false)
     }
 
+    fun morePressed(item:MenuItem) {
+        toast(R.string.like)
+        persistanceManager.saveFavorite(favLandmark!!)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.more, menu)
+
+        return true
+    }
     private fun loadingBar(show: Boolean) {
         if(show) {
             detail_progress_bar.visibility = ProgressBar.VISIBLE
-            //detail_progress_bar.systemUiVisibility = ProgressBar.SYSTEM_UI_FLAG_VISIBLE
         }
         else {
             detail_progress_bar.visibility = ProgressBar.INVISIBLE

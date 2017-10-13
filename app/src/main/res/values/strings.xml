@@ -7,7 +7,10 @@
     <string name="landmarks_button_text">Favorite Landmarks</string>
 
     <string name="place_holder">Lorem Ipsum</string>
-
+    <string name="share">share</string>
+    <string name="like">like</string>
+    <string name="like_tip">add as favorite landmark</string>
+    <string name="share_tip">share to social media</string>
 
 
 </resources>

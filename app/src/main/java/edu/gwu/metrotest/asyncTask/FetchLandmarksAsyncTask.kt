@@ -39,7 +39,7 @@ class FetchLandmarksAsyncTask(val context: Context){
                         itemSearchCompletionListener?.landmarkItemNotLoaded()
                     }
                     result?.let {
-                        var itemsInfo = parseInfoFromYelpJSON(result)
+                        var itemsInfo = parseInfoFromYelpJSON(result, stationName)
 
                         if (itemsInfo != null && itemsInfo.size > 0) {
                             //sortByDistance(landmarks)
@@ -55,7 +55,7 @@ class FetchLandmarksAsyncTask(val context: Context){
 
     }
 
-    fun parseInfoFromYelpJSON(jsonObject: JsonObject): ArrayList<Landmark>{
+    fun parseInfoFromYelpJSON(jsonObject: JsonObject, stationName: String): ArrayList<Landmark>{
         val itemResults = jsonObject.getAsJsonArray("businesses")
 
         if (itemResults != null && itemResults.size() > 0) {
@@ -102,7 +102,8 @@ class FetchLandmarksAsyncTask(val context: Context){
                     if (landmarkImageUrl == null) {
                         landmarkImageUrl = "don't have image"
                     } else {
-                        val mLandmark = Landmark(landmarkName, landmarkImageUrl, addressLine1, addressLine2, landmarkDistance)
+                        val mLandmark = Landmark(landmarkName, landmarkImageUrl, addressLine1, addressLine2,
+                                landmarkDistance, stationName)
                         landmarks.add(mLandmark)
                     }
                 }

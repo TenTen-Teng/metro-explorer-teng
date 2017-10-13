@@ -21,5 +21,7 @@ object Constants {
     val WMATA_LOCATION_URL = "https://api.wmata.com/Rail.svc/json/jStationEntrances"
     val WMATA_API_KEY = "4e7abbfe86004387888ba5f9bc9aa769"
 
+    val LANDMARK_PREF_KEY = "LANDMARK"
+
 
 }

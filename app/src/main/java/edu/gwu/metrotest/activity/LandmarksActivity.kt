@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import edu.gwu.metrotest.LocationDetector
+import edu.gwu.metrotest.PersistanceManager
 import edu.gwu.metrotest.asyncTask.FetchLandmarksAsyncTask
 import edu.gwu.metrotest.adapter.LandmarksAdapter
 import edu.gwu.metrotest.R
@@ -33,6 +34,7 @@ class LandmarksActivity : AppCompatActivity(), View.OnClickListener,
     private lateinit var recyclerView: RecyclerView
     private var fetchLandmarksAsyncTask = FetchLandmarksAsyncTask(this)
     private var fetchMetroStationAsyncTask = FetchMetroStationAsyncTask(this)
+    private var metroStation = ""
 
     //private var locationDetector = LocationDetector(this)
 
@@ -65,8 +67,6 @@ class LandmarksActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun landmarkItemLoaded(landmarks: ArrayList<Landmark>) {
-
-
         landmarksAdapter?:let {
             landmarksAdapter = LandmarksAdapter(landmarks, this)
             recyclerView.adapter = landmarksAdapter
@@ -101,6 +101,7 @@ class LandmarksActivity : AppCompatActivity(), View.OnClickListener,
     override fun stationNameFound(stationName : String) {
         fetchLandmarksAsyncTask.itemSearchCompletionListener = this
         landmarks = fetchLandmarksAsyncTask.loadLandmarkData(stationName)
+        metroStation = stationName
     }
 
     override fun stationNameNotFound() {

@@ -12,6 +12,8 @@ import edu.gwu.metrotest.R
 import kotlinx.android.synthetic.main.activity_menu.*
 import android.content.DialogInterface
 import android.widget.ProgressBar
+import edu.gwu.metrotest.FavorityActivity
+import edu.gwu.metrotest.PersistanceManager
 import kotlinx.android.synthetic.main.activity_landmarks.*
 import kotlinx.android.synthetic.main.activity_metro_station.*
 import org.jetbrains.anko.*
@@ -20,7 +22,6 @@ import org.jetbrains.anko.*
 class MenuActivity : AppCompatActivity(){
     private val TAG = "MenuActivity"
     private val LOCATION_PERMISSION = 66
-
 
 
 
@@ -38,10 +39,10 @@ class MenuActivity : AppCompatActivity(){
             startActivity(intent)
         }
 
-//        favorite_landmarks_button.setOnClickListener {
-//            //val intent3 = Intent(this, LandmarkDetailActivity::class.java)
-//            //startActivity(intent3)
-//        }
+        favorite_landmarks_button.setOnClickListener {
+            val intent = Intent(this, FavorityActivity::class.java)
+            startActivity(intent)
+        }
 
         requestPermissionsIfNecessary()
     }
