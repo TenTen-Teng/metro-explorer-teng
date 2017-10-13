@@ -15,33 +15,20 @@
         >
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/detail_toolbar"
+            android:id="@+id/like_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="@color/cardview_shadow_start_color"
+            />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/share_toolbar"
             android:layout_width="wrap_content"
             android:layout_height="?android:attr/actionBarSize"
             android:background="@color/cardview_shadow_start_color"
             />
 
     </LinearLayout>
-
-        <!--<Button-->
-            <!--android:id="@+id/share_button"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:text="@string/share"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--/>-->
-
-        <!--<Button-->
-            <!--android:id="@+id/like_button"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:text="@strmorelike"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_toLeftOf="@+id/share_button"-->
-            <!--/>-->
-
-
 
     <RelativeLayout
         android:id="@+id/landmark_detail_linearLayout"

@@ -11,6 +11,7 @@
     <string name="like">like</string>
     <string name="like_tip">add as favorite landmark</string>
     <string name="share_tip">share to social media</string>
+    <string name="send_to">123</string>
 
 
 </resources>

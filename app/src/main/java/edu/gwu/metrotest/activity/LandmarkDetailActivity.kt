@@ -10,6 +10,9 @@ import edu.gwu.metrotest.R
 import edu.gwu.metrotest.model.Landmark
 import kotlinx.android.synthetic.main.activity_landmark_detail.*
 import org.jetbrains.anko.toast
+import android.content.Intent
+
+
 
 class LandmarkDetailActivity : AppCompatActivity(){
     private lateinit var persistanceManager: PersistanceManager
@@ -27,7 +30,7 @@ class LandmarkDetailActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landmark_detail)
 
-        setSupportActionBar(detail_toolbar)
+        setSupportActionBar(like_toolbar)
 
         val landmark = intent.getParcelableExtra<Landmark>(LANDMARK)
         title = landmark.name
@@ -52,15 +55,27 @@ class LandmarkDetailActivity : AppCompatActivity(){
         loadingBar(false)
     }
 
-    fun morePressed(item:MenuItem) {
+    fun likePressed(item:MenuItem) {
         toast(R.string.like)
         val favLandmark = Landmark(title, imageUrl, address1, address2,
                 distance)
         persistanceManager.saveFavorite(favLandmark)
     }
 
+    fun sharePressed(item:MenuItem) {
+        toast(R.string.share)
+
+        val sendIntent = Intent()
+        sendIntent.action = Intent.ACTION_SEND
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "Share this to social media")
+        sendIntent.type = "text/plain"
+        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
+    }
+
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.more, menu)
+        menuInflater.inflate(R.menu.like, menu)
+        menuInflater.inflate(R.menu.share, menu)
 
         return true
     }

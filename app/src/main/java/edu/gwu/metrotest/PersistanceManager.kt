@@ -6,7 +6,6 @@ import android.preference.PreferenceManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import edu.gwu.metrotest.model.Landmark
-import java.util.prefs.PreferenceChangeEvent
 
 /**
  * Created by liteng on 10/13/17.

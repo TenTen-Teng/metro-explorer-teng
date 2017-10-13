@@ -5,7 +5,8 @@
     <item
         android:title="@string/like"
         android:tooltipText="@string/like_tip"
-        android:onClick="morePressed"
+        android:icon="@android:drawable/ic_menu_add"
+        android:onClick="likePressed"
         compat:showAsAction="ifRoom"
         />
 </menu>
