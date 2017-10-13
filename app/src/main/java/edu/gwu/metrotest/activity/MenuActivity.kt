@@ -10,16 +10,18 @@ import android.support.v4.app.ActivityCompat
 import android.util.Log
 import edu.gwu.metrotest.R
 import kotlinx.android.synthetic.main.activity_menu.*
-import org.jetbrains.anko.toast
 import android.content.DialogInterface
-import org.jetbrains.anko.alert
-import org.jetbrains.anko.noButton
-import org.jetbrains.anko.yesButton
+import android.widget.ProgressBar
+import kotlinx.android.synthetic.main.activity_landmarks.*
+import kotlinx.android.synthetic.main.activity_metro_station.*
+import org.jetbrains.anko.*
 
 
 class MenuActivity : AppCompatActivity(){
     private val TAG = "MenuActivity"
     private val LOCATION_PERMISSION = 66
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +32,7 @@ class MenuActivity : AppCompatActivity(){
             val intent = Intent(this@MenuActivity, LandmarksActivity::class.java)
             startActivity(intent)
         }
-//
+
         selectStation_button.setOnClickListener {
             val intent = Intent(this@MenuActivity, MetroStationActivity::class.java)
             startActivity(intent)
@@ -100,6 +102,8 @@ class MenuActivity : AppCompatActivity(){
             }
         }
     }
+
+
 }
 
 

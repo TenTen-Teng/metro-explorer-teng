@@ -61,7 +61,6 @@ class FetchLandmarksAsyncTask(val context: Context){
         if (itemResults != null && itemResults.size() > 0) {
             for (i in 0..itemResults.size() - 1) {
                 var itemResult = itemResults.get(i).asJsonObject
-
                 var landmarkName = itemResult.get("name").toString().removeSurrounding("\"","\"")
                 var landmarkImageUrl = itemResult.get("image_url").toString().removeSurrounding("\"","\"")
                 var landmarkDistance = itemResult.get("distance").asInt
@@ -90,8 +89,6 @@ class FetchLandmarksAsyncTask(val context: Context){
                 } else {
                     var addressLines = displayAddress.split("\",")
 
-                    Log.e("address@@@@", addressLines.size.toString())
-
                     if (addressLines.size == 1) {
                         addressLine1 = addressLines[0]
                         addressLine2 = "-1"
@@ -101,14 +98,6 @@ class FetchLandmarksAsyncTask(val context: Context){
                             addressLine2 = addressLines[1]
                         }
                     }
-
-//                    if(addressLines.size == 2) {
-//                        addressLine1 = addressLines.get(0)
-//                        addressLine2 = addressLines.get(1)
-//                    } else {
-//                        addressLine1 = addressLines.get(0)
-//                        addressLine2 = "-1"
-//                    }
 
                     if (landmarkImageUrl == null) {
                         landmarkImageUrl = "don't have image"

@@ -1,5 +1,6 @@
 package edu.gwu.metrotest.activity
 
+
 import android.content.Intent
 import android.location.Location
 import android.support.v7.app.AppCompatActivity
@@ -8,16 +9,17 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
+import android.widget.ProgressBar
 import edu.gwu.metrotest.LocationDetector
 import edu.gwu.metrotest.asyncTask.FetchLandmarksAsyncTask
 import edu.gwu.metrotest.adapter.LandmarksAdapter
 import edu.gwu.metrotest.R
 import edu.gwu.metrotest.asyncTask.FetchMetroStationAsyncTask
 import edu.gwu.metrotest.model.Landmark
-import org.jetbrains.anko.alert
-import org.jetbrains.anko.toast
-import org.jetbrains.anko.yesButton
+import kotlinx.android.synthetic.main.activity_landmarks.*
+import org.jetbrains.anko.*
 import java.util.*
+
 
 
 class LandmarksActivity : AppCompatActivity(), View.OnClickListener,
@@ -31,26 +33,28 @@ class LandmarksActivity : AppCompatActivity(), View.OnClickListener,
     private lateinit var recyclerView: RecyclerView
     private var fetchLandmarksAsyncTask = FetchLandmarksAsyncTask(this)
     private var fetchMetroStationAsyncTask = FetchMetroStationAsyncTask(this)
-    private lateinit var locationDetector: LocationDetector
 
+    //private var locationDetector = LocationDetector(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landmarks)
-
-        locationDetector = LocationDetector(this)
-        locationDetector.locationListener = this
+        //locationDetector = LocationDetector(this@LandmarksActivity)
+        //locationDetector.locationListener = this
         initView()
     }
 
     fun initView() {
+        loadingBar(true)
+
         recyclerView = findViewById(R.id.landmarks_list)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
                 false)
-        //locationDetector.detectLocation()
+        //locationDetector.detectLocation(this)
 
         fetchMetroStationAsyncTask.findStationNameListener = this
         fetchMetroStationAsyncTask.findStationCode("38.858056", "-77.057778")
+
     }
 
     override fun onClick(p0: View?) {
@@ -61,16 +65,17 @@ class LandmarksActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun landmarkItemLoaded(landmarks: ArrayList<Landmark>) {
-        //need add a prograss bar
-        toast("Item is loading ....")
+
 
         landmarksAdapter?:let {
             landmarksAdapter = LandmarksAdapter(landmarks, this)
             recyclerView.adapter = landmarksAdapter
         }
+        loadingBar(false)
     }
 
     override fun landmarkItemNotLoaded() {
+        loadingBar(false)
         toast("Item didn't load :(")
     }
 
@@ -78,8 +83,8 @@ class LandmarksActivity : AppCompatActivity(), View.OnClickListener,
         Log.e("location@@@@", location.toString())
         toast("location ${location.latitude}, ${location.longitude}")
 
-//        fetchMetroStationAsyncTask.findStationNameListener = this
-//        fetchMetroStationAsyncTask.findStationCode(location)
+        fetchMetroStationAsyncTask.findStationNameListener = this
+        fetchMetroStationAsyncTask.findStationCode(location.latitude.toString(), location.longitude.toString())
 
         finish()
     }
@@ -104,5 +109,13 @@ class LandmarksActivity : AppCompatActivity(), View.OnClickListener,
         }
     }
 
+    private fun loadingBar(show: Boolean) {
+        if(show) {
+            progress_bar.visibility = ProgressBar.VISIBLE
+        }
+        else {
+            progress_bar.visibility = ProgressBar.INVISIBLE
+        }
+    }
 
 }

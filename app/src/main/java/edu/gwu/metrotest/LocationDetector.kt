@@ -29,8 +29,69 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
  * Created by liteng on 10/7/17.
  */
 
+//class LocationDetector(val context: Context):AppCompatActivity(), LocationListener {
+//    private var location: Location? = null
+//    val TAG = "LocationDector"
+//    var locationListener: LocationListener? = null
+//    var locationManager: LocationManager? = null
+//
+//    enum class FailureReason {
+//        TIMEOUT,
+//        NO_PERMISSION
+//    }
+//
+//    interface LocationListener {
+//        fun locationFound(location: Location)
+//        fun locationNotFound(reason: FailureReason)
+//    }
+//
+//    @SuppressLint("MissingPermission")
+//    fun detectLocation(context: Context) {
+//        locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+//
+//        location = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+//        var isGPS = locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER)!!
+//
+//        if(!isGPS) {
+//            locationListener?.locationNotFound(FailureReason.NO_PERMISSION)
+//
+//        } else {
+//            if (location == null) {
+//                Log.v("can't !!!!!!", "!!!!!!!!!")
+//            } else {
+//                locationListener?.locationFound(location!!)
+//            }
+//        }
+//        locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, this)
+//
+//    }
+//
+//    override fun onLocationChanged(location : Location?) {
+//        location?.let {
+//            Log.e("fromdetector", location.longitude.toString())
+//            locationListener?.locationFound(location)
+//        }
+//        stopLocationUpdates()
+//    }
+//
+//    override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {
+//        //not used
+//    }
+//
+//    override fun onProviderEnabled(p0: String?) {
+//        //not used
+//    }
+//
+//    override fun onProviderDisabled(p0: String?) {
+//        //not used
+//    }
+//
+//
+//    fun stopLocationUpdates() {
+//        locationManager?.removeUpdates(this)
+//    }
 //}
-
+//
 //class LocationDetector(val context: Context): LocationListener {
 //    private var location: Location? = null
 //    val TAG = "LocationDector"
@@ -57,7 +118,7 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 //
 //        if(permissionResult == android.content.pm.PackageManager.PERMISSION_GRANTED) {
 //
-//            if (gpsProviderEnabled!! || networkProviderEnabled!!) {
+//            if (gpsProviderEnabled != null || networkProviderEnabled != null) {
 //                location = locationManager?.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
 //
 //                if(!locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER)!!) {
@@ -105,61 +166,6 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 //    }
 //}
 
-//class LocationDetector(val context: Context) {
-//    private var location: Location? = null
-//    val TAG = "LocationDector"
-//    var locationListener: LocationListener? = null
-//    var locationManager: LocationManager? = null
-//
-//    enum class FailureReason {
-//        TIMEOUT,
-//        NO_PERMISSION
-//    }
-//
-//    interface LocationListener {
-//        fun locationFound(location: Location)
-//        fun locationNotFound(reason: FailureReason)
-//    }
-//
-//
-//
-//    fun detectLocation() {
-//        if (gpsProviderEnabled || networkProviderEnabled) {
-//            if (networkProviderEnabled) {
-//                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_UPDATE_TIME, MIN_UPDATE_DISTANCE, this)
-//                if (locationManager != null) {
-//                    location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-//                    providerType = "network"
-//                    Log.d(LOG_TAG, "network lbs provider:" + if (location == null) "null" else String.valueOf(location.getLatitude()) + "," + String.valueOf(location.getLongitude()))
-//                    updateLocation(location)
-//                }
-//            }
-//
-//            if (gpsProviderEnabled && location == null) {
-//                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_UPDATE_TIME, MIN_UPDATE_DISTANCE, this)
-//                if (locationManager != null) {
-//                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                        // TODO: Consider calling
-//                        //    ActivityCompat#requestPermissions
-//                        // here to request the missing permissions, and then overriding
-//                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//                        //                                          int[] grantResults)
-//                        // to handle the case where the user grants the permission. See the documentation
-//                        // for ActivityCompat#requestPermissions for more details.
-//                        return
-//                    }
-//                    location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-//                    providerType = "gps"
-//                    Log.d(LOG_TAG, "gps lbs provider:" + if (location == null) "null" else String.valueOf(location.getLatitude()) + "," + String.valueOf(location.getLongitude()))
-//                    updateLocation(location)
-//                }
-//            }
-//        }
-//    }
-//}
-
-
-
 
 
 class LocationDetector(val context: Context) {
@@ -182,14 +188,14 @@ class LocationDetector(val context: Context) {
         fun locationNotFound(reason: FailureReason)
     }
 
-    fun detectLocation() {
+    fun detectLocation(context: Context) {
         //create location request
         val locationRequest = LocationRequest()
         locationRequest.interval = 0L
 
         //check for location permission
         val permissionResult = ContextCompat.checkSelfPermission(context,
-                android.Manifest.permission.ACCESS_FINE_LOCATION);
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
 
         //if location permission granted, proceed with location detection
         if(permissionResult == android.content.pm.PackageManager.PERMISSION_GRANTED) {
@@ -199,15 +205,14 @@ class LocationDetector(val context: Context) {
             //create location detection callback
             val locationCallback = object : LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult) {
-
-
+                    fusedLocationClient.removeLocationUpdates(this)
                     //cancel timer
                     timer.cancel()
 
                     //fire callback with location
                     locationListener?.locationFound(locationResult.locations.first())
                     //stop location updates
-                    fusedLocationClient.removeLocationUpdates(this)
+
                 }
             }
 

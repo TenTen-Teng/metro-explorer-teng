@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.ProgressBar
 import edu.gwu.metrotest.R
 import edu.gwu.metrotest.adapter.MetroStationsAdapter
 import edu.gwu.metrotest.asyncTask.FetchMetroStationAsyncTask
@@ -34,6 +35,7 @@ class MetroStationActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     fun initView() {
+        loadingBar(true)
         recyclerView = findViewById(R.id.station_list)
         station_list.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
                 false)
@@ -53,8 +55,7 @@ class MetroStationActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun stationItemsLoaded(stations: ArrayList<MetroStation>) {
-        //need add a prograss bar
-        toast("Item is loading ....")
+        loadingBar(false)
 
         metroStationAdapter?:let {
             this@MetroStationActivity.stations = fetchMetroStationAsyncTask.loadStationData()
@@ -65,5 +66,15 @@ class MetroStationActivity : AppCompatActivity(), View.OnClickListener,
 
     override fun stationItemsNotLoaded() {
         toast("Item didn't load :(")
+        loadingBar(false)
+    }
+
+    private fun loadingBar(show: Boolean) {
+        if(show) {
+            station_progress_bar.visibility = ProgressBar.VISIBLE
+        }
+        else {
+            station_progress_bar.visibility = ProgressBar.INVISIBLE
+        }
     }
 }
