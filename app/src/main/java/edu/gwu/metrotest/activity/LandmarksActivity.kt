@@ -14,8 +14,11 @@ import edu.gwu.metrotest.utils.LocationDetector
 import edu.gwu.metrotest.asyncTask.FetchLandmarksAsyncTask
 import edu.gwu.metrotest.adapter.LandmarksAdapter
 import edu.gwu.metrotest.R
+import edu.gwu.metrotest.activity.LandmarkDetailActivity.Companion.LANDMARK
+import edu.gwu.metrotest.activity.MetroStationActivity.Companion.METROSTATION
 import edu.gwu.metrotest.asyncTask.FetchMetroStationAsyncTask
 import edu.gwu.metrotest.model.Landmark
+import edu.gwu.metrotest.model.MetroStation
 import kotlinx.android.synthetic.main.activity_landmarks.*
 import org.jetbrains.anko.*
 import java.util.*
@@ -37,23 +40,44 @@ class LandmarksActivity : AppCompatActivity(), View.OnClickListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landmarks)
-        locationDetector = LocationDetector(this@LandmarksActivity)
-        locationDetector.locationListener = this
-        initView()
+
+        recyclerView = findViewById(R.id.landmarks_list)
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
+                false)
+
+        val intent: Intent = getIntent()
+        val bundle = intent.extras
+        val activity = bundle.getString("activity")
+
+        if(activity.equals("MetroStation")) {
+            val station = intent.getParcelableExtra<MetroStation>(METROSTATION)
+            fetchLandmarksAsyncTask.itemSearchCompletionListener = this
+            landmarks = fetchLandmarksAsyncTask.loadLandmarkData(station.name)
+        }
+
+        if(activity.equals("Menu")) {
+            locationDetector = LocationDetector(this@LandmarksActivity)
+            locationDetector.locationListener = this
+            locationDetector.detectLocation(this)
+        }
     }
 
     override fun onPause() {
         super.onPause()
-        locationDetector.stopLocationUpdates()
+
+        val intent: Intent = getIntent()
+        val bundle = intent.extras
+        val activity = bundle.getString("activity")
+        if(activity.equals("Menu")) {
+            locationDetector.stopLocationUpdates()
+        }
+
     }
 
-    fun initView() {
-        loadingBar(true)
-        recyclerView = findViewById(R.id.landmarks_list)
-        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
-                false)
-        locationDetector.detectLocation(this)
-    }
+//    fun initView() {
+//        loadingBar(true)
+//
+//    }
 
     override fun onClick(p0: View?) {
         val intent = Intent(this, LandmarkDetailActivity::class.java)

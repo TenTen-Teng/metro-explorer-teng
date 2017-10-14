@@ -65,6 +65,8 @@ class MetroStationActivity : AppCompatActivity(), View.OnClickListener,
 
     override fun onClick(p0: View?) {
         val intent = Intent(this, LandmarksActivity::class.java)
+        intent.putExtra("activity", "MetroStation")
+
         val holder = p0?.tag as MetroStationsAdapter.ViewHolder
         intent.putExtra(MetroStationActivity.METROSTATION, metroStationAdapter?.getStation(holder.adapterPosition))
         startActivity(intent)
