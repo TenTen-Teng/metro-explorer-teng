@@ -6,22 +6,6 @@
     android:orientation="vertical"
     tools:context="edu.gwu.metrotest.activity.MetroStationActivity">
 
-    <!--<android.support.v7.widget.Toolbar-->
-        <!--android:id="@+id/search_toolbar"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="?android:attr/actionBarSize"-->
-        <!--android:background="@color/cardview_shadow_start_color"-->
-        <!--/>-->
-
-
-    <!--<EditText-->
-        <!--android:id="@+id/edtSearch"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:inputType="text"-->
-        <!--android:imeOptions="actionSearch"-->
-        <!--/>-->
-
 
     <include
         layout="@layout/search_toolbar" ></include>
