@@ -14,7 +14,6 @@ import edu.gwu.metrotest.utils.LocationDetector
 import edu.gwu.metrotest.asyncTask.FetchLandmarksAsyncTask
 import edu.gwu.metrotest.adapter.LandmarksAdapter
 import edu.gwu.metrotest.R
-import edu.gwu.metrotest.activity.LandmarkDetailActivity.Companion.LANDMARK
 import edu.gwu.metrotest.activity.MetroStationActivity.Companion.METROSTATION
 import edu.gwu.metrotest.asyncTask.FetchMetroStationAsyncTask
 import edu.gwu.metrotest.model.Landmark
@@ -73,11 +72,6 @@ class LandmarksActivity : AppCompatActivity(), View.OnClickListener,
         }
 
     }
-
-//    fun initView() {
-//        loadingBar(true)
-//
-//    }
 
     override fun onClick(p0: View?) {
         val intent = Intent(this, LandmarkDetailActivity::class.java)

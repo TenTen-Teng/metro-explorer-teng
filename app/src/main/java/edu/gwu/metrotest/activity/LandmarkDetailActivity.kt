@@ -11,6 +11,7 @@ import edu.gwu.metrotest.model.Landmark
 import kotlinx.android.synthetic.main.activity_landmark_detail.*
 import org.jetbrains.anko.toast
 import android.content.Intent
+import android.net.Uri
 
 class LandmarkDetailActivity : AppCompatActivity(){
     private lateinit var persistanceManager: PersistanceManager
@@ -41,6 +42,24 @@ class LandmarkDetailActivity : AppCompatActivity(){
         persistanceManager = PersistanceManager(this)
 
         showDetail()
+
+        map_button.setOnClickListener{
+            // Create a Uri from an intent string. Use the result to create an Intent.
+            val gmmIntentUri = Uri.parse("google.navigation:q=" + title)
+
+            // Create an Intent from gmmIntentUri. Set the action to ACTION_VIEW
+            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            // Make the Intent explicit by setting the Google Maps package
+            mapIntent.setPackage("com.google.android.apps.maps")
+
+            if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                // Attempt to start an activity that can handle the Intent
+                startActivity(mapIntent)
+            } else {
+                //doesn't have a map app
+                toast("Sorry, can't find a map app :(")
+            }
+        }
     }
 
     fun showDetail() {
@@ -62,7 +81,6 @@ class LandmarkDetailActivity : AppCompatActivity(){
 
     fun sharePressed(item:MenuItem) {
         toast(R.string.share)
-
         val sendIntent = Intent()
         sendIntent.action = Intent.ACTION_SEND
         sendIntent.putExtra(Intent.EXTRA_TEXT, "Share this to social media")

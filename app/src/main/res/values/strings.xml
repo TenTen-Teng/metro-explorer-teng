@@ -15,6 +15,7 @@
     <string name="search_tip">click for search station</string>
     <string name="action_setting">action_setting</string>
     <string name="search_hint">Search word</string>
+    <string name="go_to_map">navigation</string>
 
 
 </resources>
