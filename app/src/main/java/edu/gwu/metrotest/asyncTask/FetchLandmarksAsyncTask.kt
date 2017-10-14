@@ -1,7 +1,6 @@
 package edu.gwu.metrotest.asyncTask
 
 import android.content.Context
-import android.location.Location
 import android.util.Log
 import com.google.gson.JsonObject
 import com.koushikdutta.async.future.FutureCallback
@@ -42,7 +41,6 @@ class FetchLandmarksAsyncTask(val context: Context){
                         var itemsInfo = parseInfoFromYelpJSON(result, stationName)
 
                         if (itemsInfo != null && itemsInfo.size > 0) {
-                            //sortByDistance(landmarks)
                             landmarks.sortBy { it.distance }
 
                             itemSearchCompletionListener?.landmarkItemLoaded(landmarks)
@@ -69,15 +67,6 @@ class FetchLandmarksAsyncTask(val context: Context){
 
                 var landmarkLocation = itemResult.get("location").asJsonObject
                 var locations:JsonObject ?= landmarkLocation
-//
-//                var address1 = locations?.get("address1").toString()
-//                var address2 = locations?.get("address2").toString()
-//                var address3 = locations?.get("address3").toString()
-//                var city = locations?.get("city").toString()
-//                var zipCode = locations?.get("zip_code").toString()
-//                var country = locations?.get("country").toString()
-//                var state = locations?.get("state").toString()
-
 
                 var displayAddress = locations?.get("display_address").toString()
                         .removeSurrounding("[","]")

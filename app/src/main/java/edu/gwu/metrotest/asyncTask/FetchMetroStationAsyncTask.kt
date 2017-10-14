@@ -16,7 +16,6 @@ import edu.gwu.metrotest.model.MetroStation
 class FetchMetroStationAsyncTask (val context: Context) {
     private val TAG = "FetchMetroAsyncTask"
     private var stations = ArrayList<MetroStation>()
-    private lateinit var location : Location
 
     var itemsSearchCompletionListener : ItemsSearchCompletionListener ?= null
     var findStationNameListener : FindStationNameListener ?=null
@@ -59,19 +58,20 @@ class FetchMetroStationAsyncTask (val context: Context) {
 
         Ion.with(context).load(Constants.WMATA_LOCATION_URL)
                 .addHeader("api_key", Constants.WMATA_API_KEY)
-                //.addQuery("Lat", loc.latitude.toString())
-                //.addQuery("Lon", loc.longitude.toString())
                 .addQuery("Lat", lat)
                 .addQuery("Lon", lon)
                 .addQuery("Radius", "800")
                 .asJsonObject()
-                .setCallback(FutureCallback{ error, result ->
+                .setCallback(FutureCallback{
+
+                    error, result ->
                     error?.let {
                         Log.e(TAG, it.message)
                     }
                     result?.let {
                         stationCode =  parseLocationInfoFromWMATAJSON(result)
 
+                        Log.e("stationCode", stationCode)
                         if (stationCode != "-1") {
                             findStationName(stationCode)//已知station code, 去找station name
                         } else {
@@ -151,6 +151,8 @@ class FetchMetroStationAsyncTask (val context: Context) {
 
     //找location name
     fun findStationName(stationCode:String){
+        Log.e("~~~~~~~~~~555555", "findStationName!!!!")
+
         if(stationCode == "-1") {
             findStationNameListener?.stationNameNotFound()
         } else {
@@ -218,6 +220,7 @@ class FetchMetroStationAsyncTask (val context: Context) {
 
 
     private fun parseLocationInfoFromWMATAJSON(jsonObject: JsonObject): String{
+        Log.e("parseLocation!!!!", "parseLocationInfoFromWMATAJSON")
         var stationCode = "0"
         val locationResults = jsonObject.getAsJsonArray("Entrances")
 
@@ -233,6 +236,7 @@ class FetchMetroStationAsyncTask (val context: Context) {
             }
         } else {
             //no item situation
+            stationCode = "-1"
             Log.e("load error", "no item in the list")
         }
         return stationCode

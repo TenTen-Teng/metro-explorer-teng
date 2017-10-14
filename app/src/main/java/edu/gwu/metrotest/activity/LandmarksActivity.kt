@@ -31,29 +31,28 @@ class LandmarksActivity : AppCompatActivity(), View.OnClickListener,
     private lateinit var recyclerView: RecyclerView
     private var fetchLandmarksAsyncTask = FetchLandmarksAsyncTask(this)
     private var fetchMetroStationAsyncTask = FetchMetroStationAsyncTask(this)
-    private var metroStation = ""
+    private lateinit var locationDetector : LocationDetector
 
-    //private var locationDetector = LocationDetector(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landmarks)
-        //locationDetector = LocationDetector(this@LandmarksActivity)
-        //locationDetector.locationListener = this
+        locationDetector = LocationDetector(this@LandmarksActivity)
+        locationDetector.locationListener = this
         initView()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        locationDetector.stopLocationUpdates()
     }
 
     fun initView() {
         loadingBar(true)
-
         recyclerView = findViewById(R.id.landmarks_list)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
                 false)
-        //locationDetector.detectLocation(this)
-
-        fetchMetroStationAsyncTask.findStationNameListener = this
-        fetchMetroStationAsyncTask.findStationCode("38.858056", "-77.057778")
-
+        locationDetector.detectLocation(this)
     }
 
     override fun onClick(p0: View?) {
@@ -77,13 +76,11 @@ class LandmarksActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun locationFound(location: Location) {
-        Log.e("location@@@@", location.toString())
         toast("location ${location.latitude}, ${location.longitude}")
+        Log.e("latitude = ", location.latitude.toString())
 
         fetchMetroStationAsyncTask.findStationNameListener = this
         fetchMetroStationAsyncTask.findStationCode(location.latitude.toString(), location.longitude.toString())
-
-        finish()
     }
 
     override fun locationNotFound(reason: LocationDetector.FailureReason) {
@@ -98,7 +95,6 @@ class LandmarksActivity : AppCompatActivity(), View.OnClickListener,
     override fun stationNameFound(stationName : String) {
         fetchLandmarksAsyncTask.itemSearchCompletionListener = this
         landmarks = fetchLandmarksAsyncTask.loadLandmarkData(stationName)
-        metroStation = stationName
     }
 
     override fun stationNameNotFound() {
