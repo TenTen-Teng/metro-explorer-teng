@@ -10,8 +10,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
-import edu.gwu.metrotest.LocationDetector
-import edu.gwu.metrotest.PersistanceManager
+import edu.gwu.metrotest.utils.LocationDetector
 import edu.gwu.metrotest.asyncTask.FetchLandmarksAsyncTask
 import edu.gwu.metrotest.adapter.LandmarksAdapter
 import edu.gwu.metrotest.R

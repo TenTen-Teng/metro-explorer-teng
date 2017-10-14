@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">DCMetroExplorer</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="app_name">MetroExplorer</string>
 
     <string name="closetSatation_button_text">Use Closest Station</string>
     <string name="selectSatation_button_text">Select a station</string>
@@ -12,6 +11,10 @@
     <string name="like_tip">add as favorite landmark</string>
     <string name="share_tip">share to social media</string>
     <string name="send_to">123</string>
+    <string name="search">search</string>
+    <string name="search_tip">click for search station</string>
+    <string name="action_setting">action_setting</string>
+    <string name="search_hint">Search word</string>
 
 
 </resources>

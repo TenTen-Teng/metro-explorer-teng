@@ -1,8 +1,10 @@
-package edu.gwu.metrotest
+package edu.gwu.metrotest.activity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import edu.gwu.metrotest.PersistanceManager
+import edu.gwu.metrotest.R
 import edu.gwu.metrotest.adapter.FavoriteAdapter
 import kotlinx.android.synthetic.main.activity_favorite.*
 

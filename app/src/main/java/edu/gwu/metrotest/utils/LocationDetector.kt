@@ -1,28 +1,14 @@
-package edu.gwu.metrotest
+package edu.gwu.metrotest.utils
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Location
-import android.location.LocationManager
-import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.location.LocationListener
 import android.support.v4.content.ContextCompat
-import android.util.Log
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import java.util.*
 import kotlin.concurrent.timerTask
-import android.content.pm.PackageManager
-import android.Manifest.permission
-import android.Manifest.permission.ACCESS_COARSE_LOCATION
-import android.support.v4.app.ActivityCompat
-import android.Manifest.permission.ACCESS_FINE_LOCATION
-
-
 
 
 /**

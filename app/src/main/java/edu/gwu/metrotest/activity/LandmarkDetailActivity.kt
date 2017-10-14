@@ -12,8 +12,6 @@ import kotlinx.android.synthetic.main.activity_landmark_detail.*
 import org.jetbrains.anko.toast
 import android.content.Intent
 
-
-
 class LandmarkDetailActivity : AppCompatActivity(){
     private lateinit var persistanceManager: PersistanceManager
     private var title: String = ""
@@ -31,6 +29,7 @@ class LandmarkDetailActivity : AppCompatActivity(){
         setContentView(R.layout.activity_landmark_detail)
 
         setSupportActionBar(like_toolbar)
+        setSupportActionBar(share_toolbar)
 
         val landmark = intent.getParcelableExtra<Landmark>(LANDMARK)
         title = landmark.name
@@ -51,7 +50,6 @@ class LandmarkDetailActivity : AppCompatActivity(){
         distance_text.text = distance.toString()
         //landmark_image
 
-
         loadingBar(false)
     }
 
@@ -69,7 +67,7 @@ class LandmarkDetailActivity : AppCompatActivity(){
         sendIntent.action = Intent.ACTION_SEND
         sendIntent.putExtra(Intent.EXTRA_TEXT, "Share this to social media")
         sendIntent.type = "text/plain"
-        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
+        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)))
     }
 
 

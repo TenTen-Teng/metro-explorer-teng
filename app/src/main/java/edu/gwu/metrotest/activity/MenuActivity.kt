@@ -7,15 +7,8 @@ import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
-import android.util.Log
 import edu.gwu.metrotest.R
 import kotlinx.android.synthetic.main.activity_menu.*
-import android.content.DialogInterface
-import android.widget.ProgressBar
-import edu.gwu.metrotest.FavorityActivity
-import edu.gwu.metrotest.PersistanceManager
-import kotlinx.android.synthetic.main.activity_landmarks.*
-import kotlinx.android.synthetic.main.activity_metro_station.*
 import org.jetbrains.anko.*
 
 
