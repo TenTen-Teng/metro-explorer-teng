@@ -45,7 +45,7 @@ class MetroStationActivity : AppCompatActivity(), View.OnClickListener,
         setContentView(R.layout.activity_metro_station)
 
         setSupportActionBar(search_toolbar)
-        supportActionBar?.title = "Metro Station list"
+        supportActionBar?.title = "Metro Station"
 
         initView()
     }
@@ -101,10 +101,10 @@ class MetroStationActivity : AppCompatActivity(), View.OnClickListener,
 
     private fun loadingBar(show: Boolean) {
         if(show) {
-            station_progress_bar.visibility = ProgressBar.VISIBLE
+            progress_bar.visibility = ProgressBar.VISIBLE
         }
         else {
-            station_progress_bar.visibility = ProgressBar.INVISIBLE
+            progress_bar.visibility = ProgressBar.INVISIBLE
         }
     }
 
@@ -113,7 +113,6 @@ class MetroStationActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun onQueryTextChange(newText: String): Boolean {
-        Log.e("query!!!!", newText)
         newText.toLowerCase()
         var newStation = ArrayList<MetroStation>()
 
@@ -126,7 +125,6 @@ class MetroStationActivity : AppCompatActivity(), View.OnClickListener,
             }
         }
 
-        Log.e("for@@@@", newStation[0].name)
         metroStationAdapter = MetroStationsAdapter(newStation, this)
         station_list.adapter = metroStationAdapter
 

@@ -49,12 +49,14 @@ class LandmarksActivity : AppCompatActivity(), View.OnClickListener,
         val activity = bundle.getString("activity")
 
         if(activity.equals("MetroStation")) {
+            loadingBar(true)
             val station = intent.getParcelableExtra<MetroStation>(METROSTATION)
             fetchLandmarksAsyncTask.itemSearchCompletionListener = this
             landmarks = fetchLandmarksAsyncTask.loadLandmarkData(station.name)
         }
 
         if(activity.equals("Menu")) {
+            loadingBar(true)
             locationDetector = LocationDetector(this@LandmarksActivity)
             locationDetector.locationListener = this
             locationDetector.detectLocation(this)
@@ -81,6 +83,7 @@ class LandmarksActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun landmarkItemLoaded(landmarks: ArrayList<Landmark>) {
+        loadingBar(false)
         landmarksAdapter?:let {
             landmarksAdapter = LandmarksAdapter(landmarks, this)
             recyclerView.adapter = landmarksAdapter
@@ -90,19 +93,19 @@ class LandmarksActivity : AppCompatActivity(), View.OnClickListener,
 
     override fun landmarkItemNotLoaded() {
         loadingBar(false)
+        loadingBar(false)
         toast("Item didn't load :(")
     }
 
     override fun locationFound(location: Location) {
-        toast("location ${location.latitude}, ${location.longitude}")
-        Log.e("latitude = ", location.latitude.toString())
+        loadingBar(false)
 
         fetchMetroStationAsyncTask.findStationNameListener = this
         fetchMetroStationAsyncTask.findStationCode(location.latitude.toString(), location.longitude.toString())
     }
 
     override fun locationNotFound(reason: LocationDetector.FailureReason) {
-        //showLoading(false)
+        loadingBar(false)
         when(reason){
             LocationDetector.FailureReason.TIMEOUT -> Log.d(TAG, "Location timed out!!!")
             LocationDetector.FailureReason.NO_PERMISSION -> Log.d(TAG, "No location permission")
@@ -116,6 +119,7 @@ class LandmarksActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     override fun stationNameNotFound() {
+        loadingBar(false)
         alert("Can't find closest Metro Station :( ") {
             yesButton {  }
         }
