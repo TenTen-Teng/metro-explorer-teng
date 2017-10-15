@@ -8,10 +8,9 @@ import edu.gwu.metrotest.R
 import edu.gwu.metrotest.adapter.FavoriteAdapter
 import kotlinx.android.synthetic.main.activity_favorite.*
 
-class FavorityActivity : AppCompatActivity() {
+class FavoriteActivity : AppCompatActivity() {
     private lateinit var persistanceManager: PersistanceManager
     private lateinit var favoriteAdapter: FavoriteAdapter
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

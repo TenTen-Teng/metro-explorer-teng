@@ -13,39 +13,43 @@ import org.jetbrains.anko.*
 
 
 class MenuActivity : AppCompatActivity(){
-    private val TAG = "MenuActivity"
     private val LOCATION_PERMISSION = 66
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
+        //click closest station button, go to landmark activity
         closestStation_button.setOnClickListener {
             val intent = Intent(this@MenuActivity, LandmarksActivity::class.java)
             intent.putExtra("activity", "Menu")
             startActivity(intent)
         }
 
+        //click select station button, go to metro station activity
         selectStation_button.setOnClickListener {
             val intent = Intent(this@MenuActivity, MetroStationActivity::class.java)
             startActivity(intent)
         }
 
+        //click favorite landmarks button, go to favorite landmark activity
         favorite_landmarks_button.setOnClickListener {
-            val intent = Intent(this, FavorityActivity::class.java)
+            val intent = Intent(this, FavoriteActivity::class.java)
             startActivity(intent)
         }
 
+        //request location permission
         requestPermissionsIfNecessary()
     }
 
 
     fun requestPermissionsIfNecessary() {
+        //check sdk version
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            //检测获取地址的权限， 获取到返回 PackageManager.PERMISSION_GRANTED， 否则返回PERMISSION_DENIED
+            //check permission and return PackageManager.PERMISSION_GRANTED if get, otherwise return PERMISSION_DENIED
             val checkSelfPermission = checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) // 精确
 
-            //如果没有获取到权限
+            //no permission
             if (checkSelfPermission != PackageManager.PERMISSION_GRANTED) {
                 alert ("No permission granted"){
                     yesButton {
@@ -58,7 +62,7 @@ class MenuActivity : AppCompatActivity(){
                 ActivityCompat.requestPermissions(this@MenuActivity,
                         arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION);
 
-                // Should we show an explanation?
+                // show an explanation
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                     alert ("You need to allow access to Location to get the closest Metro Station"){
                         yesButton {

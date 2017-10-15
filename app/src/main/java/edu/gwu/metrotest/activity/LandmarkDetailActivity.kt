@@ -51,6 +51,7 @@ class LandmarkDetailActivity : AppCompatActivity(){
 
             // Create an Intent from gmmIntentUri. Set the action to ACTION_VIEW
             val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+
             // Make the Intent explicit by setting the Google Maps package
             mapIntent.setPackage("com.google.android.apps.maps")
 
@@ -64,14 +65,15 @@ class LandmarkDetailActivity : AppCompatActivity(){
         }
     }
 
-    fun showDetail() {
+    //load landmark detail into xml
+    private fun showDetail() {
         loadingBar(true)
         title_text.text = title
         address_text.text = address1 + "\n" + address2
         distance_text.text = distance.toString()
-        //landmark_image
 
         loadingBar(true)
+        //show landmark image
         Ion.with(landmark_image).load(imageUrl).setCallback{ error, result ->
             if(error != null) {
                 Log.e("Landmark image error...", error.toString())
@@ -83,13 +85,14 @@ class LandmarkDetailActivity : AppCompatActivity(){
         loadingBar(false)
     }
 
+    //"like" tool bar - add current landmark as favorite landmark when press like tool bar
     fun likePressed(item:MenuItem) {
         toast(R.string.like)
-        val favLandmark = Landmark(title, imageUrl, address1, address2,
-                distance)
+        val favLandmark = Landmark(title, imageUrl, address1, address2, distance)
         persistanceManager.saveFavorite(favLandmark)
     }
 
+    //"share" tool bar - share current landmark to social media
     fun sharePressed(item:MenuItem) {
         toast(R.string.share)
         val sendIntent = Intent()
@@ -105,6 +108,7 @@ class LandmarkDetailActivity : AppCompatActivity(){
 
         return true
     }
+
     private fun loadingBar(show: Boolean) {
         if(show) {
             progress_bar.visibility = ProgressBar.VISIBLE

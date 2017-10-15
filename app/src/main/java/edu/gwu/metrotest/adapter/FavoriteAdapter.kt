@@ -29,15 +29,12 @@ class FavoriteAdapter(private val landmarks: List<Landmark>) : RecyclerView.Adap
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent?.context)
 
-        //inflate our score row layout
         return ViewHolder(layoutInflater.inflate(R.layout.list_favorite, parent, false))
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val nameLandmark: TextView = view.findViewById(R.id.landmark_name)
-        private val realtiveStation: TextView = view.findViewById(R.id.station_name)
 
-        //update score row ui with score and date
         fun bind(landmark: Landmark) {
             nameLandmark.text = landmark.name
         }

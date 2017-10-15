@@ -34,8 +34,7 @@
         <activity android:name=".activity.LandmarkDetailActivity" />
         <activity android:name=".activity.LandmarksActivity" />
         <activity android:name=".activity.MetroStationActivity" />
-        <activity android:name=".activity.FavorityActivity" />
-        <activity android:name=".activity.MapActivity"></activity>
+        <activity android:name=".activity.FavoriteActivity" />
     </application>
 
 </manifest>

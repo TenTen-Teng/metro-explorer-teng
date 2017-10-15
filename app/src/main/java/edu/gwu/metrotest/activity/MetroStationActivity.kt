@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
 import edu.gwu.metrotest.R
@@ -17,24 +16,16 @@ import kotlinx.android.synthetic.main.activity_metro_station.*
 import org.jetbrains.anko.toast
 import android.app.SearchManager
 import android.content.Context
-import android.support.v4.view.MenuItemCompat
-import android.util.Log
-import android.widget.SearchView
-import edu.gwu.metrotest.R.id.*
-import edu.gwu.metrotest.model.Landmark
 import kotlinx.android.synthetic.main.search_toolbar.*
-
 
 class MetroStationActivity : AppCompatActivity(), View.OnClickListener,
         FetchMetroStationAsyncTask.ItemsSearchCompletionListener,
         android.support.v7.widget.SearchView.OnQueryTextListener {
 
-    private val TAG = "MetroStationActivity"
-
-    lateinit var stations: List<MetroStation>
-    var metroStationAdapter: MetroStationsAdapter?= null
-    lateinit var recyclerView: RecyclerView
-    var fetchMetroStationAsyncTask = FetchMetroStationAsyncTask(this)
+    private lateinit var stations: List<MetroStation>
+    private var metroStationAdapter: MetroStationsAdapter?= null
+    private lateinit var recyclerView: RecyclerView
+    private var fetchMetroStationAsyncTask = FetchMetroStationAsyncTask(this)
 
     companion object {
         val METROSTATION = "STATION"
@@ -50,19 +41,19 @@ class MetroStationActivity : AppCompatActivity(), View.OnClickListener,
         initView()
     }
 
-    fun initView() {
+    private fun initView() {
         loadingBar(true)
         recyclerView = findViewById(R.id.station_list)
-        station_list.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
-                false)
+        station_list.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
+        //fetch metro station list from WMATA API
         fetchMetroStationAsyncTask.itemsSearchCompletionListener = this
         fetchMetroStationAsyncTask.loadStationData()
 
-        station_list.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
-                false)
+        station_list.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
+    //handle click item: go to landmark activity and show landmarks near current station
     override fun onClick(p0: View?) {
         val intent = Intent(this, LandmarksActivity::class.java)
         intent.putExtra("activity", "MetroStation")
@@ -72,9 +63,11 @@ class MetroStationActivity : AppCompatActivity(), View.OnClickListener,
         startActivity(intent)
     }
 
+    //listener from fetchMetroStationAsyncTask, get a list of station from API
     override fun stationItemsLoaded(stations: ArrayList<MetroStation>) {
         loadingBar(false)
 
+        //add stations to adapter
         metroStationAdapter?:let {
             this@MetroStationActivity.stations = fetchMetroStationAsyncTask.loadStationData()
             metroStationAdapter = MetroStationsAdapter(stations, this)
@@ -82,12 +75,13 @@ class MetroStationActivity : AppCompatActivity(), View.OnClickListener,
         }
     }
 
+    //listener from fetchMetroStationAsyncTask, can't get station lists, toast info to user
     override fun stationItemsNotLoaded() {
         toast("Item didn't load :(")
         loadingBar(false)
     }
 
-
+    //search tool bar
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.search, menu)
 
@@ -99,6 +93,7 @@ class MetroStationActivity : AppCompatActivity(), View.OnClickListener,
         return true
     }
 
+    //progress bar
     private fun loadingBar(show: Boolean) {
         if(show) {
             progress_bar.visibility = ProgressBar.VISIBLE
@@ -108,10 +103,12 @@ class MetroStationActivity : AppCompatActivity(), View.OnClickListener,
         }
     }
 
+    //handle search text
     override fun onQueryTextSubmit(query: String?): Boolean {
         return false
     }
 
+    //handle search text change
     override fun onQueryTextChange(newText: String): Boolean {
         newText.toLowerCase()
         var newStation = ArrayList<MetroStation>()

@@ -4,11 +4,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import android.widget.TextView
 import edu.gwu.metrotest.R
-import edu.gwu.metrotest.model.Landmark
 import edu.gwu.metrotest.model.MetroStation
 
 /**
@@ -19,7 +16,6 @@ class MetroStationsAdapter(private val stations: ArrayList<MetroStation>,
                            var clickListener : View.OnClickListener?)
     : RecyclerView.Adapter<MetroStationsAdapter.ViewHolder>(){
 
-    var stationsList : ArrayList<MetroStation> = stations
     override fun getItemCount(): Int {
         return stations.size
     }
