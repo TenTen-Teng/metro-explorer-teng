@@ -16,8 +16,6 @@ class MenuActivity : AppCompatActivity(){
     private val TAG = "MenuActivity"
     private val LOCATION_PERMISSION = 66
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
@@ -40,6 +38,7 @@ class MenuActivity : AppCompatActivity(){
 
         requestPermissionsIfNecessary()
     }
+
 
     fun requestPermissionsIfNecessary() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -97,8 +96,6 @@ class MenuActivity : AppCompatActivity(){
             }
         }
     }
-
-
 }
 
 

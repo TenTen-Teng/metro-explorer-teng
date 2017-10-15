@@ -8,7 +8,9 @@
 
 
     <include
-        layout="@layout/search_toolbar" ></include>
+        layout="@layout/search_toolbar" >
+
+    </include>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/station_list"

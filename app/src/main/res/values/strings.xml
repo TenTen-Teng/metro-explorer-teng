@@ -16,6 +16,7 @@
     <string name="action_setting">action_setting</string>
     <string name="search_hint">Search word</string>
     <string name="go_to_map">navigation</string>
-
+    <string name="language_en">English</string>
+    <string name="language_ch">Chinese</string>
 
 </resources>
