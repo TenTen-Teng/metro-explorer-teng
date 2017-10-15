@@ -19,5 +19,7 @@
     <string name="go_to_map">navigation</string>
     <string name="language_en">English</string>
     <string name="language_ch">Chinese</string>
+    <string name="address_title_text">Address:</string>
+    <string name="distance_title_text">Distance:</string>
 
 </resources>

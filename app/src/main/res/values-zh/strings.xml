@@ -19,5 +19,7 @@
     <string name="go_to_map">导航</string>
     <string name="language_en">英语</string>
     <string name="language_ch">中文</string>
+    <string name="address_title_text">地址： </string>
+    <string name="distance_title_text">距离: </string>
 
 </resources>
