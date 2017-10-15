@@ -36,7 +36,6 @@ class MetroStationActivity : AppCompatActivity(), View.OnClickListener,
         setContentView(R.layout.activity_metro_station)
 
         setSupportActionBar(search_toolbar)
-        supportActionBar?.title = "Metro Station"
 
         initView()
     }

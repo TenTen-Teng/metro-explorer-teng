@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MetroExplorer</string>
-
     <string name="closetSatation_button_text">Use Closest Station</string>
     <string name="selectSatation_button_text">Select a station</string>
     <string name="landmarks_button_text">Favorite Landmarks</string>
-
     <string name="place_holder">Lorem Ipsum</string>
     <string name="share">share</string>
     <string name="like">like</string>
     <string name="like_tip">add as favorite landmark</string>
     <string name="share_tip">share to social media</string>
-    <string name="send_to">123</string>
+    <string name="send_to">Share to:</string>
     <string name="search">search</string>
     <string name="search_tip">click for search station</string>
     <string name="action_setting">action_setting</string>
     <string name="search_hint">Search word</string>
     <string name="go_to_map">navigation</string>
-    <string name="language_en">English</string>
-    <string name="language_ch">Chinese</string>
     <string name="address_title_text">Address:</string>
     <string name="distance_title_text">Distance:</string>
 

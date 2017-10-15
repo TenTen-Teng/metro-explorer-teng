@@ -14,6 +14,7 @@ import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import com.koushikdutta.ion.Ion
+import kotlinx.android.synthetic.main.like_share.*
 
 class LandmarkDetailActivity : AppCompatActivity(){
     private lateinit var persistanceManager: PersistanceManager
@@ -31,8 +32,7 @@ class LandmarkDetailActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landmark_detail)
 
-        setSupportActionBar(like_toolbar)
-        setSupportActionBar(share_toolbar)
+        setSupportActionBar(like_share_toolbar)
 
         val landmark = intent.getParcelableExtra<Landmark>(LANDMARK)
         title = landmark.name
@@ -85,9 +85,10 @@ class LandmarkDetailActivity : AppCompatActivity(){
         loadingBar(false)
     }
 
-    //"like" tool bar - add current landmark as favorite landmark when press like tool bar
+    //"like_share" tool bar - add current landmark as favorite landmark when press like_share tool bar
     fun likePressed(item:MenuItem) {
         toast(R.string.like)
+
         val favLandmark = Landmark(title, imageUrl, address1, address2, distance)
         persistanceManager.saveFavorite(favLandmark)
     }
@@ -103,8 +104,8 @@ class LandmarkDetailActivity : AppCompatActivity(){
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.like, menu)
-        menuInflater.inflate(R.menu.share, menu)
+        menuInflater.inflate(R.menu.like_share, menu)
+        //menuInflater.inflate(R.menu.share, menu)
 
         return true
     }

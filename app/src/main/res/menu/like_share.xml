@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:compat="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:contect=".LandmarkDetailActivity"
     >
     <item
         android:title="@string/like"
         android:tooltipText="@string/like_tip"
         android:icon="@android:drawable/ic_menu_add"
         android:onClick="likePressed"
+        compat:showAsAction="ifRoom"
+        />
+
+    <item
+        android:title="@string/share"
+        android:tooltipText="@string/share_tip"
+        android:icon="@android:drawable/ic_menu_share"
+        android:onClick="sharePressed"
         compat:showAsAction="ifRoom"
         />
 </menu>

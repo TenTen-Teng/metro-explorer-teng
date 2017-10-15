@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">地铁周边景点</string>
-
     <string name="closetSatation_button_text">寻找最近</string>
     <string name="selectSatation_button_text">查看地铁站</string>
     <string name="landmarks_button_text">收藏景点</string>
-
     <string name="place_holder">未知</string>
     <string name="share">分享</string>
     <string name="like">收藏</string>
     <string name="like_tip">已收藏</string>
     <string name="share_tip">分享</string>
-    <string name="send_to">发送至</string>
+    <string name="send_to">分享至</string>
     <string name="search">查找</string>
     <string name="search_tip">查找地铁站</string>
     <string name="action_setting">设置</string>
     <string name="search_hint">搜索关键字</string>
     <string name="go_to_map">导航</string>
-    <string name="language_en">英语</string>
-    <string name="language_ch">中文</string>
     <string name="address_title_text">地址： </string>
     <string name="distance_title_text">距离: </string>
-
 </resources>
