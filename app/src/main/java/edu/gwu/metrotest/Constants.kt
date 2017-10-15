@@ -12,16 +12,13 @@ object Constants {
     val YELP_GRANT_TYPE = "client_credentials"
     val YELP_TOKEN = "0wbKQw08FNn3MHBq7mqcoDzqKeGfpbmSpmdwctzoGvd7xOMOfAZIz6Uuz3_PTgfsMIM0HmiNtifd-Xlxd9IRqllSdNJZOg0gAYifejVDDgELaaQvxk6st84pgErRWXYx"
 
-    //找全部地铁站
+    //url for finding station list
     val WMATA_SEARCH_URL = "https://api.wmata.com/Rail.svc/json/jStations"
-    //根据Station Code 找地铁名字
+    //url for finding station name according to station station code
     val WMATA_INFO_URL = "https://api.wmata.com/Rail.svc/json/jStationInfo"
-    //要根据坐标找到最近的station code
-    //应当出现在locationDetector里面
+    //url for finding station code according to location
     val WMATA_LOCATION_URL = "https://api.wmata.com/Rail.svc/json/jStationEntrances"
     val WMATA_API_KEY = "4e7abbfe86004387888ba5f9bc9aa769"
 
     val LANDMARK_PREF_KEY = "LANDMARK"
-
-
 }

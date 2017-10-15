@@ -13,7 +13,7 @@ import kotlin.concurrent.timerTask
 
 
 /**
- * Created by liteng on 10/7/17.
+ * Created by jared on 10/8/17.
  */
 
 class LocationDetector(val context: Context): AppCompatActivity() {
@@ -27,6 +27,7 @@ class LocationDetector(val context: Context): AppCompatActivity() {
         fun locationNotFound(reason : FailureReason)
     }
 
+    //enum to describe reasons location detection might fail
     enum class FailureReason {
         TIMEOUT,
         NO_PERMISSION
@@ -34,6 +35,7 @@ class LocationDetector(val context: Context): AppCompatActivity() {
 
     @SuppressLint("MissingPermission")
     fun detectLocation(context: Context) {
+        //create location request
         val locationRequest = LocationRequest()
 
         locationRequest.priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
@@ -57,11 +59,12 @@ class LocationDetector(val context: Context): AppCompatActivity() {
 
             fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
 
+            //create location detection callback
             locationCallback = object : LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult) {
                     super.onLocationResult(locationResult)
                     timer.cancel()
-                    Log.e("~~~~~~~~~~333333", "locationFound!!!!")
+                    //fire callback with location
                     locationListener?.locationFound(locationResult.lastLocation)
                 }
 
@@ -70,10 +73,13 @@ class LocationDetector(val context: Context): AppCompatActivity() {
                 }
             }
 
+            //stop location updates
             fusedLocationProviderClient.removeLocationUpdates(locationCallback)
 
+            //start location updates
             fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
 
+            //start a timer to ensure location detection ends after 10 seconds
             timer.schedule(timerTask {
                 //if timer expires, stop location updates and fire callback
                 fusedLocationProviderClient?.removeLocationUpdates(locationCallback)
@@ -81,6 +87,7 @@ class LocationDetector(val context: Context): AppCompatActivity() {
             }, 10*1000) //10 seconds
 
         } else {
+            //else if no permission, fire callback
             locationListener?.locationNotFound(FailureReason.NO_PERMISSION)
         }
     }

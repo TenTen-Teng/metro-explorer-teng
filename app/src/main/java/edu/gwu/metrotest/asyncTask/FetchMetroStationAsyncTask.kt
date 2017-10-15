@@ -1,7 +1,6 @@
 package edu.gwu.metrotest.asyncTask
 
 import android.content.Context
-import android.location.Location
 import android.util.Log
 import com.google.gson.JsonObject
 import com.koushikdutta.async.future.FutureCallback
@@ -13,6 +12,7 @@ import edu.gwu.metrotest.model.MetroStation
  * Created by liteng on 10/8/17.
  */
 
+
 class FetchMetroStationAsyncTask (val context: Context) {
     private val TAG = "FetchMetroAsyncTask"
     private var stations = ArrayList<MetroStation>()
@@ -20,16 +20,19 @@ class FetchMetroStationAsyncTask (val context: Context) {
     var itemsSearchCompletionListener : ItemsSearchCompletionListener ?= null
     var findStationNameListener : FindStationNameListener ?=null
 
+    //interface for searching station name response
     interface FindStationNameListener {
         fun stationNameFound(name: String)
         fun stationNameNotFound()
     }
 
+    //interface for searching station list response
     interface ItemsSearchCompletionListener {
         fun stationItemsLoaded(stations: ArrayList<MetroStation>)
         fun stationItemsNotLoaded()
     }
 
+    //get station info from WMATA API: get metro statin list
     fun loadStationData() : ArrayList<MetroStation>{
         Ion.with(context).load(Constants.WMATA_SEARCH_URL)
                 .addHeader("api_key", Constants.WMATA_API_KEY)
@@ -52,7 +55,7 @@ class FetchMetroStationAsyncTask (val context: Context) {
     }
 
 
-    //fun findStationCode(loc : Location){
+    //get station code from WMATA API: accoding location to get station code
     fun findStationCode(lat: String, lon:String) {
         var stationCode : String
 
@@ -73,13 +76,12 @@ class FetchMetroStationAsyncTask (val context: Context) {
 
                         Log.e("stationCode", stationCode)
                         if (stationCode != "-1") {
-                            findStationName(stationCode)//已知station code, 去找station name
+                            //get station code to search station name from WMATA API
+                            findStationName(stationCode)
                         } else {
                             //expand search radius * 2
                             Ion.with(context).load(Constants.WMATA_LOCATION_URL)
                                     .addHeader("api_key", Constants.WMATA_API_KEY)
-                                    //.addQuery("Lat", loc.latitude.toString())
-                                    //.addQuery("Lon", loc.longitude.toString())
                                     .addQuery("Lat", lat)
                                     .addQuery("Lon", lon)
                                     .addQuery("Radius", "1600")
@@ -97,8 +99,6 @@ class FetchMetroStationAsyncTask (val context: Context) {
                                                 //expand search radius * 2
                                                 Ion.with(context).load(Constants.WMATA_LOCATION_URL)
                                                         .addHeader("api_key", Constants.WMATA_API_KEY)
-                                                        //.addQuery("Lat", loc.latitude.toString())
-                                                        //.addQuery("Lon", loc.longitude.toString())
                                                         .addQuery("Lat", lat)
                                                         .addQuery("Lon", lon)
                                                         .addQuery("Radius", "3200")
@@ -111,13 +111,11 @@ class FetchMetroStationAsyncTask (val context: Context) {
                                                                 stationCode =  parseLocationInfoFromWMATAJSON(result)
 
                                                                 if (stationCode != "-1") {
-                                                                    findStationName(stationCode)//已知station code, 去找station name
+                                                                    findStationName(stationCode)
                                                                 } else {
                                                                     //expand search radius * 2
                                                                     Ion.with(context).load(Constants.WMATA_LOCATION_URL)
                                                                             .addHeader("api_key", Constants.WMATA_API_KEY)
-                                                                            //.addQuery("Lat", loc.latitude.toString())
-                                                                            //.addQuery("Lon", loc.longitude.toString())
                                                                             .addQuery("Lat", lat)
                                                                             .addQuery("Lon", lon)
                                                                             .addQuery("Radius", "6400")
@@ -149,10 +147,8 @@ class FetchMetroStationAsyncTask (val context: Context) {
                 })
     }
 
-    //找location name
+    //search station name from WMATA API
     fun findStationName(stationCode:String){
-        Log.e("~~~~~~~~~~555555", "findStationName!!!!")
-
         if(stationCode == "-1") {
             findStationNameListener?.stationNameNotFound()
         } else {
@@ -160,13 +156,11 @@ class FetchMetroStationAsyncTask (val context: Context) {
                     .addHeader("api_key", Constants.WMATA_API_KEY)
                     .addQuery("StationCode", stationCode)
                     .asJsonObject()
-                    //.asString()
                     .setCallback(FutureCallback{ error, result ->
                         error?.let {
                             Log.e(TAG, it.message)
                         }
                         result?.let {
-                            //val stationName =  parseNameFromWMATAJSON(result)
                             val stationName = result.asJsonObject.get("Name").toString()
 
                             Log.e("stationName = ", stationName)
@@ -182,6 +176,7 @@ class FetchMetroStationAsyncTask (val context: Context) {
 
     }
 
+    //parse JSON
     private fun parseStationInfoFromWMATAJSON(jsonObject: JsonObject): ArrayList<MetroStation>{
         val itemResults = jsonObject.getAsJsonArray("Stations")
 
@@ -200,9 +195,6 @@ class FetchMetroStationAsyncTask (val context: Context) {
                 var addresses: JsonObject?= stationAddress
 
                 var street = addresses?.get("Street").toString()
-                var city = addresses?.get("City").toString()
-                var state = addresses?.get("State").toString()
-                var zip = addresses?.get("Zip").toString()
 
                 if (name == null || addresses == null) {
                     continue
@@ -218,7 +210,7 @@ class FetchMetroStationAsyncTask (val context: Context) {
         return stations
     }
 
-
+    //parse JSON
     private fun parseLocationInfoFromWMATAJSON(jsonObject: JsonObject): String{
         Log.e("parseLocation!!!!", "parseLocationInfoFromWMATAJSON")
         var stationCode = "0"

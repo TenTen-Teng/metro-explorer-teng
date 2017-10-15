@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">带你探索地图周边景点</string>
+    <string name="app_name">地铁周边景点</string>
 
     <string name="closetSatation_button_text">寻找最近</string>
     <string name="selectSatation_button_text">查看地铁站</string>

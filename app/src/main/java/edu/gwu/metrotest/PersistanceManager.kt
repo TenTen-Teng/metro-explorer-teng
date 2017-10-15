@@ -12,16 +12,14 @@ import edu.gwu.metrotest.model.Landmark
  */
 
 class PersistanceManager(context: Context) {
-    val sharedPreferences : SharedPreferences
-    init {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-    }
+    private val sharedPreferences : SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
+    //get favorite landmark
     fun fetchFavorite() : List<Landmark> {
-        var landmarkJson = sharedPreferences?.getString(Constants.LANDMARK_PREF_KEY, null)
+        var landmarkJson = sharedPreferences.getString(Constants.LANDMARK_PREF_KEY, null)
 
         if(landmarkJson == null) {
-            return arrayListOf<Landmark>()
+            return arrayListOf()
         } else {
             val landmarkType = object :TypeToken<MutableList<Landmark>>(){}.type
 
@@ -31,12 +29,13 @@ class PersistanceManager(context: Context) {
         }
     }
 
+    //save favorite landmark
     fun saveFavorite(landmark:Landmark) {
         val landmarks = fetchFavorite().toMutableList()
 
         landmarks.add(landmark)
 
-        val editor = sharedPreferences?.edit()
+        val editor = sharedPreferences.edit()
         editor?.putString(Constants.LANDMARK_PREF_KEY, Gson().toJson(landmarks))
 
         editor?.apply()

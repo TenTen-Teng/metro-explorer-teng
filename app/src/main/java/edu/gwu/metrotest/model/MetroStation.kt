@@ -1,7 +1,7 @@
 package edu.gwu.metrotest.model
 
 import android.os.Parcelable
-import android.os.Parcel;
+import android.os.Parcel
 
 
 /**
@@ -18,8 +18,7 @@ data class MetroStation(val name:String, val address: String, val lat: String, v
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
-            parcel.readString()) {
-    }
+            parcel.readString())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)

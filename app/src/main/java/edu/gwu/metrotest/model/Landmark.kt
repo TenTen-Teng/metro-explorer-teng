@@ -1,7 +1,7 @@
 package edu.gwu.metrotest.model
 
 import android.os.Parcelable
-import android.os.Parcel;
+import android.os.Parcel
 
 
 /**
@@ -18,8 +18,7 @@ data class Landmark(val name: String, val imageUrl: String,
             parcel.readString(),
             parcel.readString(),
             parcel.readInt()
-            ) {
-    }
+            )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
@@ -42,6 +41,4 @@ data class Landmark(val name: String, val imageUrl: String,
             return arrayOfNulls(size)
         }
     }
-
-
 }
