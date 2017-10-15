@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical|center_horizontal"
+    tools:context="edu.gwu.metrotest.activity.MenuActivity"
+    >
+
+        <ImageView
+            android:src="@drawable/menu_metro"
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            />
+
+        <Button
+            android:id="@+id/closestStation_button"
+            android:text="@string/closetSatation_button_text"
+            android:layout_width="200dp"
+            android:layout_height="40dp" />
+
+        <Button
+            android:id="@+id/selectStation_button"
+            android:text="@string/selectSatation_button_text"
+            android:layout_width="200dp"
+            android:layout_height="40dp" />
+
+        <Button
+            android:id="@+id/favorite_landmarks_button"
+            android:text="@string/landmarks_button_text"
+            android:layout_width="200dp"
+            android:layout_height="40dp" />
+
+
+</LinearLayout>
