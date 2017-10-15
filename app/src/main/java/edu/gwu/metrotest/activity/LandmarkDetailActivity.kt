@@ -12,6 +12,8 @@ import kotlinx.android.synthetic.main.activity_landmark_detail.*
 import org.jetbrains.anko.toast
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
+import com.koushikdutta.ion.Ion
 
 class LandmarkDetailActivity : AppCompatActivity(){
     private lateinit var persistanceManager: PersistanceManager
@@ -69,6 +71,15 @@ class LandmarkDetailActivity : AppCompatActivity(){
         distance_text.text = distance.toString()
         //landmark_image
 
+        loadingBar(true)
+        Ion.with(landmark_image).load(imageUrl).setCallback{ error, result ->
+            if(error != null) {
+                Log.e("Landmark image error...", error.toString())
+                loadingBar(false)
+            } else {
+                loadingBar(false)
+            }
+        }
         loadingBar(false)
     }
 
@@ -88,7 +99,6 @@ class LandmarkDetailActivity : AppCompatActivity(){
         startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)))
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.like, menu)
         menuInflater.inflate(R.menu.share, menu)
@@ -97,10 +107,10 @@ class LandmarkDetailActivity : AppCompatActivity(){
     }
     private fun loadingBar(show: Boolean) {
         if(show) {
-            detail_progress_bar.visibility = ProgressBar.VISIBLE
+            progress_bar.visibility = ProgressBar.VISIBLE
         }
         else {
-            detail_progress_bar.visibility = ProgressBar.INVISIBLE
+            progress_bar.visibility = ProgressBar.INVISIBLE
         }
     }
 }
