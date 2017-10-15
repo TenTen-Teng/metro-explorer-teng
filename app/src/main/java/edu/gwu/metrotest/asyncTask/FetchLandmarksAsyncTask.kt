@@ -28,7 +28,7 @@ class FetchLandmarksAsyncTask(val context: Context){
     //get landmark info from Yelp API
     fun loadLandmarkData(stationName:String) : ArrayList<Landmark>{
         Ion.with(context).load(Constants.YELP_SEARCH_URL)
-                //.addHeader("Authorization", "Bearer " + token.toString())
+                //.addHeader("Authorization", "Bearer " + token)
                 .addHeader("Authorization", "Bearer " + Constants.YELP_TOKEN)
                 .addQuery("term", "landmarks")
                 .addQuery("location", stationName)

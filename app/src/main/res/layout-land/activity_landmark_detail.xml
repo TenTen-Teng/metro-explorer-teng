@@ -92,7 +92,6 @@
 
         <ImageView
             android:id="@+id/landmark_image"
-            android:src="@drawable/menu_metro"
             android:paddingTop="10dp"
             android:layout_height="100dp"
             android:layout_width="200dp"

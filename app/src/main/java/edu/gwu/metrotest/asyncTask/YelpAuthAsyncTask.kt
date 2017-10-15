@@ -28,12 +28,11 @@ class YelpAuthAsyncTask (val context: Context){
                     result?.let {
                         //get token
                         if (it == null || it.length < 0) {
-                            Log.v("accessToken is null", "null!")
+                            Log.e("accessToken is null", "null!")
                         } else {
-                            Log.v("accessToken******", it)
+                            Log.e("accessToken******", it)
                         }
                     }
                 })
-
     }
 }

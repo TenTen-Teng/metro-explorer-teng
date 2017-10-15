@@ -7,6 +7,7 @@ import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
+import android.util.Log
 import edu.gwu.metrotest.R
 import kotlinx.android.synthetic.main.activity_menu.*
 import org.jetbrains.anko.*
@@ -78,7 +79,7 @@ class MenuActivity : AppCompatActivity(){
                             arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION);
                 }
             } else {
-                toast("got permission!")
+                Log.v("permission","got permission")
             }
         }
     }

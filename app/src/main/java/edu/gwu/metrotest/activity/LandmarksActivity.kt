@@ -106,8 +106,6 @@ class LandmarksActivity : AppCompatActivity(), View.OnClickListener,
 
     //listener from LocationDetector: get location
     override fun locationFound(location: Location) {
-        loadingBar(false)
-
         //send location to fetchMetroStation to get closest metro station by searching WMATA API
         fetchMetroStationAsyncTask.findStationNameListener = this
         fetchMetroStationAsyncTask.findStationCode(location.latitude.toString(), location.longitude.toString())
@@ -128,7 +126,6 @@ class LandmarksActivity : AppCompatActivity(), View.OnClickListener,
 
     //listener from fetchMetroStation: get closest metro station name
     override fun stationNameFound(stationName : String) {
-
         //pass station name as location attribute to find landmarks in Yelp API
         fetchLandmarksAsyncTask.itemSearchCompletionListener = this
         landmarks = fetchLandmarksAsyncTask.loadLandmarkData(stationName)

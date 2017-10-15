@@ -5,15 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center_vertical|center_horizontal"
     tools:context="edu.gwu.metrotest.activity.LandmarksActivity">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/landmarks_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        />
-
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -21,5 +14,12 @@
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/landmarks_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        />
 
 </LinearLayout>

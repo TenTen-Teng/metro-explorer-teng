@@ -5,15 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_vertical|center_horizontal"
+    android:background="@drawable/bg"
     tools:context="edu.gwu.metrotest.activity.MenuActivity"
     >
-
-        <ImageView
-            android:src="@drawable/menu_metro"
-            android:layout_width="wrap_content"
-            android:layout_height="250dp"
-            />
-
         <Button
             android:id="@+id/closestStation_button"
             android:text="@string/closetSatation_button_text"
